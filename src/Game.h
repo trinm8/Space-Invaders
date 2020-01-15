@@ -7,11 +7,12 @@
 
 #include <iostream>
 #include "Controller.h"
+#include "WorldController.h"
 #include "SFMLmanager.h"
 
 class Game {
 
-   std::unique_ptr<Controller> currentLevel;
+   std::unique_ptr<WorldController> currentLevel;
    SFMLmanager graphicsmanager;
    std::vector<std::unique_ptr<Controller>> controllers;
 
@@ -27,6 +28,10 @@ public:
     int update();
 
     bool offscreen(float posX, float posY);
+
+    int expiredRemove();
+
+    int collisionChecks();
 
 };
 

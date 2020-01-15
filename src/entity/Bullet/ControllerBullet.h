@@ -10,11 +10,11 @@
 class ControllerBullet: public Controller {
 
 public:
-    ControllerBullet(float posX, float posY);
+    ControllerBullet(float posX, float posY, int direction);
 
     int update(std::vector<std::unique_ptr<Controller>>& controller) override;
 
-    int moveUp() override;
+    int onCollision(Controller &other) override;
 };
 
 

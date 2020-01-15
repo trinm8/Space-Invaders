@@ -28,3 +28,7 @@ int View::update(const std::shared_ptr<sf::RenderWindow> window) {
     window->draw(*sprite);
     return 0;
 }
+
+const std::shared_ptr<Entity> &View::getModel() const {
+    return model;
+}

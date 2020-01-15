@@ -16,6 +16,12 @@ class Entity {
     float x, y;
     Hitbox hitbox;
     double fireCooldown;
+    int lives;
+    bool deadly;
+    float speedY;
+    float speedX;
+    int directionY;
+    int directionX;
 
 public:
     double getFireCooldown() const;
@@ -35,6 +41,30 @@ public:
     void setY(float y);
 
     Hitbox &getHitbox();
+
+    int getLives() const;
+
+    void setLives(int lives);
+
+    bool isDeadly() const;
+
+    void setDeadly(bool deadly);
+
+    float getSpeedY() const;
+
+    void setSpeedY(float speedY);
+
+    int getDirectionY() const;
+
+    void setDirectionY(int directionY);
+
+    float getSpeedX() const;
+
+    void setSpeedX(float speedX);
+
+    int getDirectionX() const;
+
+    void setDirectionX(int directionX);
 
 };
 

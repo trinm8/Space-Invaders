@@ -7,8 +7,10 @@
 #include <chrono>
 #include <thread>
 #include "ControllerPlayer.h"
+#include "ControllerEnemy.h"
 #include "InputHandler.h"
 #include "Defines.h"
+#include "Stopwatch.h"
 
 Game::Game() {
 
@@ -23,9 +25,12 @@ int Game::run()
 
     initGame(graphicsmanager);
 
+    Global::Stopwatch::startGame();
+
     while(window.isOpen())
     {
-        auto start = std::chrono::system_clock::now();
+        //auto start = std::chrono::system_clock::now();
+        Global::Stopwatch::startClock();
 
         sf::Event event;
         while(window.pollEvent(event))
@@ -42,7 +47,13 @@ int Game::run()
             }*/
         }
 
-        update();
+        while(Global::Stopwatch::isLaggingBehind()) {
+
+            update();
+
+            Global::Stopwatch::updateLag();
+
+        }
 
         window.clear();
 
@@ -50,27 +61,48 @@ int Game::run()
 
         window.display();
 
-        std::this_thread::sleep_for(start + std::chrono::milliseconds (MS_PER_UPDATE) - std::chrono::system_clock::now());
+        //std::this_thread::sleep_for(start + std::chrono::milliseconds (MS_PER_UPDATE) - std::chrono::system_clock::now());
     }
     return 0;
 }
 
 int Game::initGame(SFMLmanager& manager) {
     controllers.push_back(std::make_unique<ControllerPlayer>(manager));
+    controllers.push_back(std::make_unique<ControllerEnemy>(3, manager));
     return 0;
 }
 
 int Game::update() {
     for (int i = 0; i < controllers.size(); ++i) {
         controllers[i]->update(controllers);
-        if(offscreen(controllers[i]->getModel()->getX(), controllers[i]->getModel()->getY())){
-            controllers[i].release();
-            controllers.erase(controllers.begin() + i);
-        }
     }
+    collisionChecks();
+    expiredRemove();
     return 0;
 }
 
 bool Game::offscreen(float posX, float posY) {
     return (0 < posY || posY < -MaxLogicY) || (0 > posX || posX > MaxLogicX);
+}
+
+int Game::collisionChecks() {
+    for (int i = 0; i < controllers.size(); ++i) {
+        for (int j = i+1; j < controllers.size(); ++j) {
+            if(controllers[i]->collides(*controllers[j])){
+                controllers[i]->onCollision(*controllers[j]);
+                controllers[j]->onCollision(*controllers[i]);
+            }
+        }
+    }
+    return 0;
+}
+
+int Game::expiredRemove() {
+    for (int i = 0; i < controllers.size(); ++i) {
+        if (controllers[i]->isExpired()) {
+            controllers[i].release();
+            controllers.erase(controllers.begin() + i);
+        }
+    }
+    return 0;
 }

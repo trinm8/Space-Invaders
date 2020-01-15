@@ -3,7 +3,7 @@ project(SMFL_test)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(src src/entity src/patern src/entity/Player src/ExternalTools src/patern/Commands src/entity/Bullet src/Visual)
+include_directories(src src/entity src/patern src/entity/Player src/ExternalTools src/patern/Commands src/entity/Bullet src/Visual src/entity/Enemy src/entity/world)
 
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 

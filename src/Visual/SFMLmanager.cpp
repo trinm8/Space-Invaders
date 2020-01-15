@@ -32,6 +32,15 @@ int SFMLmanager::draw() {
 }
 
 void SFMLmanager::onNotify(Controller& controller, Events::event event) {
+    if(event == Events::event::Expired){
+        for (int i = views.size()-1; i > -1; --i) {
+            if(controller.getModel().get() == views[i]->getModel().get() ){
+                views.erase(views.begin()+i);
+                return;
+            }
+        }
+    }
+
     sf::Texture texture;
     switch (event){
         case Events::event::CreatePlayerView: {
@@ -43,10 +52,17 @@ void SFMLmanager::onNotify(Controller& controller, Events::event event) {
             break;
         }
         case Events::event::CreateBulletView: {
+            controller.addObserver(std::shared_ptr<Observer>(this));
             if(!texture.loadFromFile("Assests/sprint.png")){
                 return;
             }
+
             break;
+        }
+        case Events::event::CreateEnemyView : {
+            if(!texture.loadFromFile("Assests/Enemy.png")){
+                return;
+            }
         }
         default:{
 

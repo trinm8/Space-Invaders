@@ -19,6 +19,7 @@ public:
 
     int update(std::vector<std::unique_ptr<Controller>>& controller);
 
+    int onCollision(Controller &other) override;
 };
 
 

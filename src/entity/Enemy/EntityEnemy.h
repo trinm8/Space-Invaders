@@ -15,7 +15,13 @@ public:
 
     EntityEnemy();
 
-    EntityEnemy(EntityEnemy& next);
+    EntityEnemy(std::shared_ptr<EntityEnemy> next);
+
+    std::shared_ptr<EntityEnemy> &getNextEnemy();
+
+    void setNextEnemy(const std::shared_ptr<EntityEnemy> &nextEnemy);
+
+
 
 };
 

@@ -16,27 +16,49 @@ class Controller: public Subject {
 
 protected:
 
+    bool expired;
+
+    int direction;
+
     std::shared_ptr<Entity> model;
 
 public:
 
-    Controller() = default;
+    Controller();
+
+    Controller(Observer& SFMLmanager);
 
     virtual int update(std::vector<std::unique_ptr<Controller>>& controller) = 0;
 
     [[nodiscard]] const std::shared_ptr<Entity> &getModel() const;
 
-    virtual int moveLeft();
+    int moveHorizontal();
 
-    virtual int moveRight();
-
-    virtual int moveUp();
-
-    virtual int moveDown();
+    int moveVertical();
 
     virtual int shoot(std::vector<std::unique_ptr<Controller>> &Controllers);
 
-    virtual bool isOffScreen(float newX, float newY);
+    virtual bool isOffScreen(float X, float Y);
+
+    virtual void setPos(float x, float y);
+
+    bool isExpired() const;
+
+    void makeExpired();
+
+    Hitbox getHitbox();
+
+    std::pair<float, float> getHitboxLeftCorner();
+
+    std::pair<float, float> getHitboxRightCorner();
+
+    virtual bool collides(Controller& otherController);
+
+    bool isDeadly();
+
+    int takeDamage(int value);
+
+    virtual int onCollision(Controller& other) = 0;
 
 };
 

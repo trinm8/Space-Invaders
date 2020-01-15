@@ -5,14 +5,14 @@
 #ifndef SMFL_TEST_DEFINES_H
 #define SMFL_TEST_DEFINES_H
 
-#define screensizex 800
-#define screensizey 600
-#define defaultscreenX 800
-#define defaultscreenY 600
+#define screensizex 1280
+#define screensizey 720
+#define defaultscreenX 1280
+#define defaultscreenY 780
 
 #define MaxLogicX 4
 #define MaxLogicY 3
 
-#define MS_PER_UPDATE 16
+#define MS_PER_UPDATE 7
 
 #endif //SMFL_TEST_DEFINES_H

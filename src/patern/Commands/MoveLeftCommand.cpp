@@ -6,5 +6,5 @@
 #include "Controller.h"
 
 void MoveLeftCommand::execute(Controller &controller) {
-    controller.moveLeft();
+
 }

@@ -6,5 +6,5 @@
 #include "Controller.h"
 
 void MoveUpCommand::execute(Controller &controller) {
-    controller.moveUp();
+
 }

@@ -39,3 +39,51 @@ void Entity::setFireCooldown(double fireCooldown) {
 void Entity::FireCooldownTick(double percent) {
     fireCooldown -= 1.0 * percent;
 }
+
+int Entity::getLives() const {
+    return lives;
+}
+
+void Entity::setLives(int lives) {
+    Entity::lives = lives;
+}
+
+bool Entity::isDeadly() const {
+    return deadly;
+}
+
+void Entity::setDeadly(bool deadly) {
+    Entity::deadly = deadly;
+}
+
+float Entity::getSpeedY() const {
+    return speedY;
+}
+
+void Entity::setSpeedY(float speedY) {
+    Entity::speedY = speedY;
+}
+
+int Entity::getDirectionY() const {
+    return directionY;
+}
+
+void Entity::setDirectionY(int directionY) {
+    Entity::directionY = directionY;
+}
+
+float Entity::getSpeedX() const {
+    return speedX;
+}
+
+void Entity::setSpeedX(float speedX) {
+    Entity::speedX = speedX;
+}
+
+int Entity::getDirectionX() const {
+    return directionX;
+}
+
+void Entity::setDirectionX(int directionX) {
+    Entity::directionX = directionX;
+}

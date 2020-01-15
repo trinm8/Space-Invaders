@@ -10,11 +10,25 @@
 
 class ControllerEnemy: public Controller {
 
+    std::shared_ptr<EntityEnemy> start;
+
 public:
 
     ControllerEnemy(int enemyCount, Observer& SFMLmanager);
 
     int update(std::vector<std::unique_ptr<Controller>> &controller) override;
+
+    bool reachedEdge();
+
+    void lowerLevel();
+
+    bool collides(Controller& otherController);
+
+    void removeEnemy();
+
+    int getEnemysize();
+
+    int onCollision(Controller &other) override;
 };
 
 
