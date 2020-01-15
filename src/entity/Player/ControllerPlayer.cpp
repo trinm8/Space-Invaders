@@ -20,7 +20,8 @@ ControllerPlayer::ControllerPlayer(Observer& SFMLmanager): Controller(SFMLmanage
     model->setLives(3);
     model->setDeadly(false);
     model->setDirectionY(1);
-    model->setSpeedX(0.05f);
+    model->setSpeedX(0.001f);
+    model->setScreenlocked(true);
 }
 
 int ControllerPlayer::update(std::vector<std::unique_ptr<Controller>>& controller) {

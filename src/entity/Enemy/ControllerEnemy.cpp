@@ -38,14 +38,17 @@ ControllerEnemy::ControllerEnemy(int enemyCount, Observer& SFMLmanager): Control
     model->setHitbox(Hitbox(0.2, 0.2));
     model->setDeadly(false);
     model->setLives(2);
-    model->setSpeedX(0.01f);
+    model->setSpeedX(0.00015f);
+    model->setScreenlocked(true);
     notify(*this, Events::CreateEnemyView);
-    for (int i = 0; i < enemyCount-1; ++i) {
-        std::shared_ptr<EntityEnemy> created = std::make_shared<EntityEnemy>(std::static_pointer_cast<EntityEnemy>(model));
+    for (int i = 0; i < enemyCount - 1; ++i) {
+        std::shared_ptr<EntityEnemy> created = std::make_shared<EntityEnemy>(
+                std::static_pointer_cast<EntityEnemy>(model));
         created->setHitbox(Hitbox(0.2, 0.2));
         created->setDeadly(false);
         created->setLives(2);
-        created->setSpeedX(0.01f);
+        created->setSpeedX(0.00015f);
+        created->setScreenlocked(true);
         model = created;
         notify(*this, Events::CreateEnemyView);
     }
@@ -53,14 +56,23 @@ ControllerEnemy::ControllerEnemy(int enemyCount, Observer& SFMLmanager): Control
 
 
     //TODO: Function wrapper?
-    float xpos = 3.f;
+
+    int counter = 0;
+    float ypos = -0.3f;
+    float xpos = 3.5f;
     for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
         current->setX(xpos);
-        current->setY(-0.5f);
-        xpos -= 1.f;
+        current->setY(ypos);
+        xpos -= 0.5f;
+        counter++;
+        if(counter == 7){
+            ypos -= 0.4f;
+            xpos =  3.5f;
+            counter = 0;
+        }
     }
-
 }
+
 
 bool ControllerEnemy::reachedEdge() {
     float maxX = start->getX();

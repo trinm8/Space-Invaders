@@ -55,11 +55,15 @@ int Game::run()
 
         }
 
+        Global::Stopwatch::calculateDelta();
+
         window.clear();
 
         graphicsmanager.draw();
 
         window.display();
+
+        Global::Stopwatch::sleep();
 
         //std::this_thread::sleep_for(start + std::chrono::milliseconds (MS_PER_UPDATE) - std::chrono::system_clock::now());
     }
@@ -68,7 +72,7 @@ int Game::run()
 
 int Game::initGame(SFMLmanager& manager) {
     controllers.push_back(std::make_unique<ControllerPlayer>(manager));
-    controllers.push_back(std::make_unique<ControllerEnemy>(3, manager));
+    controllers.push_back(std::make_unique<ControllerEnemy>(10, manager));
     return 0;
 }
 

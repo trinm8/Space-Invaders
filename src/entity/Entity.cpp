@@ -87,3 +87,11 @@ int Entity::getDirectionX() const {
 void Entity::setDirectionX(int directionX) {
     Entity::directionX = directionX;
 }
+
+bool Entity::isScreenlocked() const {
+    return screenlocked;
+}
+
+void Entity::setScreenlocked(bool screenlocked) {
+    Entity::screenlocked = screenlocked;
+}

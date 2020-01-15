@@ -6,6 +6,7 @@
 #include "Subject.h"
 #include "Controller.h"
 #include "Transformation.h"
+#include "Stopwatch.h"
 #include "Defines.h"
 
 View::View(std::shared_ptr<sf::Texture> texture, std::shared_ptr<sf::Sprite> sprite, std::shared_ptr<Entity> model,
@@ -22,7 +23,7 @@ int View::update(const std::shared_ptr<sf::RenderWindow> window) {
     //std::cout << "RelativeVisual: " << Global::Transformation::transformationX(model->getX()) << ", " << Global::Transformation::transformationY(model->getY()) << std::endl;
     //std::cout << model->getX() << ", " <<  model->getY() << std::endl;
 
-    sprite->setPosition(Global::Transformation::transformationX(model->getX()), Global::Transformation::transformationY(model->getY()));
+    sprite->setPosition(Global::Transformation::transformationX(model->getX() + (model->getSpeedX() * Global::Stopwatch::getDeltaTime())), Global::Transformation::transformationY(model->getY() +(model->getSpeedY() * Global::Stopwatch::getDeltaTime())));
     //sprite->scale(Transformation::transformationX(1), Transformation::transformationY(1));
     //sprite->setPosition( model->getX(), model->getY());
     window->draw(*sprite);

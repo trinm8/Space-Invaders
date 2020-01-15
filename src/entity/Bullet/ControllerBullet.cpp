@@ -13,7 +13,8 @@ ControllerBullet::ControllerBullet(float posX, float posY, int direction){
     model->setLives(1);
     model->setDeadly(true);
     model->setDirectionY(direction);
-    model->setSpeedY(0.1f);
+    model->setSpeedY(0.004f);
+    model->setScreenlocked(false);
 }
 
 int ControllerBullet::update(std::vector<std::unique_ptr<Controller>>& controller) {

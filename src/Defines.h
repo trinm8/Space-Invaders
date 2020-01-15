@@ -13,6 +13,6 @@
 #define MaxLogicX 4
 #define MaxLogicY 3
 
-#define MS_PER_UPDATE 7
+#define MS_PER_UPDATE 6
 
 #endif //SMFL_TEST_DEFINES_H

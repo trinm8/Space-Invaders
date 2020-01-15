@@ -35,7 +35,7 @@ int Controller::shoot(std::vector<std::unique_ptr<Controller>> &Controllers) {
     std::unique_ptr<ControllerBullet> bullet = std::make_unique<ControllerBullet>(model->getX(), model->getY() + model->getHitbox().getH(), model->getDirectionY());
     notify(*bullet, Events::event::CreateBulletView);
     Controllers.push_back(std::move(bullet));
-    model->setFireCooldown(50);
+    model->setFireCooldown(400);
     return 0;
 }
 
@@ -88,13 +88,16 @@ int Controller::takeDamage(int value) {
 }
 
 int Controller::moveVertical() {
-    float newY = model->getY() + (model->getSpeedY()*(float)model->getDirectionY() *  Global::Stopwatch::getDeltaTime());
+    float newY = model->getY() + (model->getSpeedY()*(float)model->getDirectionY());
+    if(model->isScreenlocked() && isOffScreen(model->getX(), newY)) return 0;
     model->setY(newY);
     return 0;
 }
 
 int Controller::moveHorizontal() {
-    model->setX(model->getX() + (model->getSpeedX() * model->getDirectionX() * Global::Stopwatch::getDeltaTime()));
+    float newX = model->getX() + (model->getSpeedX() * (float)model->getDirectionX());
+    if(model->isScreenlocked() && isOffScreen(newX, model->getY())) return 0;
+    model->setX(newX);
     return 0;
 }
 

@@ -22,6 +22,7 @@ class Entity {
     float speedX;
     int directionY;
     int directionX;
+    bool screenlocked;
 
 public:
     double getFireCooldown() const;
@@ -65,6 +66,10 @@ public:
     int getDirectionX() const;
 
     void setDirectionX(int directionX);
+
+    bool isScreenlocked() const;
+
+    void setScreenlocked(bool screenlocked);
 
 };
 
