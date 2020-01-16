@@ -12,7 +12,7 @@ std::chrono::steady_clock::time_point Global::Stopwatch:: previousStart;
 std::chrono::steady_clock::time_point Global::Stopwatch::startInterval;
 
 int Global::Stopwatch::TICKS_PER_SECOND = 25;
-int Global::Stopwatch::SKIP_TICKS = 1000 / TICKS_PER_SECOND;;
+int Global::Stopwatch::SKIP_TICKS = 10000 / TICKS_PER_SECOND;;
 int Global::Stopwatch::MAX_FRAMESKIP = 5;
 int Global::Stopwatch::loops;
 float Global::Stopwatch::deltatime;
@@ -23,7 +23,8 @@ double Global::Stopwatch::elapsed;
 void Global::Stopwatch::startClock() {
     startInterval = std::chrono::steady_clock::now();
     elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(startInterval - previousStart).count();
-    previousStart = startInterval;
+    deltatime = (float)elapsed;
+    //previousStart = startInterval;
     lag += elapsed;
     loops = 0;
 }
@@ -42,7 +43,8 @@ void Global::Stopwatch::updateLag() {
 }
 
 void Global::Stopwatch::startGame() {
-    previousStart = std::chrono::steady_clock::now();
+    //previousStart = std::chrono::steady_clock::now();
+    previousStart = startInterval;
 }
 
 float Global::Stopwatch::getDeltaTime() {
@@ -56,5 +58,7 @@ void Global::Stopwatch::sleep() {
 }
 
 void Global::Stopwatch::calculateDelta() {
-    deltatime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() + std::chrono::milliseconds(SKIP_TICKS) - startInterval).count()/(float)SKIP_TICKS;
+    std::cout << deltatime << std::endl;
+    //deltatime = elapsed;
+    //deltatime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() + std::chrono::milliseconds(SKIP_TICKS) - startInterval).count()/(float)SKIP_TICKS;
 }

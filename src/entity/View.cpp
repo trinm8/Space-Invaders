@@ -28,8 +28,8 @@ int View::update(const std::shared_ptr<sf::RenderWindow> window) {
 
 
 
-    sprite->setPosition(Global::Transformation::transformationX(model->getX() + (model->getSpeedX() * Global::Stopwatch::getDeltaTime())), Global::Transformation::transformationY(model->getY() +(model->getSpeedY() * Global::Stopwatch::getDeltaTime())));
-    //sprite->setPosition(Global::Transformation::transformationX(model->getX() ), Global::Transformation::transformationY(model->getY()));
+    //sprite->setPosition(Global::Transformation::transformationX(model->getX() + (model->getSpeedX() * (1.f - Global::Stopwatch::getDeltaTime()))), Global::Transformation::transformationY(model->getY() +(model->getSpeedY() * Global::Stopwatch::getDeltaTime())));
+    sprite->setPosition(Global::Transformation::transformationX(model->getX() ), Global::Transformation::transformationY(model->getY()));
     //sprite->scale(Transformation::transformationX(1), Transformation::transformationY(1));
     //sprite->setPosition( model->getX(), model->getY());
     window->draw(*sprite);
