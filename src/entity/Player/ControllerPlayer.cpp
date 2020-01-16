@@ -5,13 +5,11 @@
 #include <SFML/System.hpp>
 #include "ControllerPlayer.h"
 #include "EntityPlayer.h"
-#include "ViewPlayer.h"
 #include "InputHandler.h"
 #include "Command.h"
 
 ControllerPlayer::ControllerPlayer(std::shared_ptr<Observer> SFMLmanager): Controller(SFMLmanager) {
     model = std::make_shared<EntityPlayer>();
-    //addObserver(std::shared_ptr<Observer>(&SFMLmanager));
     notify(*this, Events::event::CreatePlayerView);
     model->getHitbox().setW(0.2);
     model->getHitbox().setH(0.25);
@@ -20,7 +18,7 @@ ControllerPlayer::ControllerPlayer(std::shared_ptr<Observer> SFMLmanager): Contr
     model->setLives(3);
     model->setDeadly(false);
     model->setDirectionY(1);
-    model->setSpeedX(0.001f);
+    model->setSpeedX(0.003f);
     model->setScreenlocked(true);
     notify(*this, Events::event::UpdatePlayerHealth);
 }

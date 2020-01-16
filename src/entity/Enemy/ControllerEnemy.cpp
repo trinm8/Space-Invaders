@@ -34,7 +34,7 @@ int ControllerEnemy::update(std::vector<std::shared_ptr<Controller>> &controller
 
     }
 
-    if(timebetweenshots >= 1000) {
+    if(timebetweenshots >= 300) {
         std::vector<std::shared_ptr<EntityEnemy>> ready = getShootReadyEnemies();
         if(!ready.empty() && !reachedEdge()) {
             int nextshoot = rand() % ready.size() - 1 + 1;

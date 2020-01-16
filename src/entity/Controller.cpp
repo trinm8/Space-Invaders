@@ -38,13 +38,8 @@ int Controller::shoot(std::vector<std::shared_ptr<Controller>> &Controllers) {
     std::shared_ptr<ControllerBullet> bullet = std::make_shared<ControllerBullet>(model->getX(), model->getY() + (model->getSpeedY() + model->getHitbox().getH() * (float) model->getDirectionY()) , model->getDirectionY());
     notify(*bullet, Events::event::CreateBulletView);
     Controllers.push_back(std::move(bullet));
-    model->setFireCooldown(2000);
+    model->setFireCooldown(400);
     return 0;
-}
-
-void Controller::setPos(float x, float y) {
-    model->setX(x);
-    model->setY(y);
 }
 
 bool Controller::isExpired() const {
@@ -62,11 +57,11 @@ Hitbox Controller::getHitbox() {
 }
 
 std::pair<float, float> Controller::getHitboxLeftCorner() {
-    return std::pair<float , float>(model->getX() - getHitbox().getW()/2, model->getY() + getHitbox().getH()/2);
+    return {model->getX() - getHitbox().getW()/2, model->getY() + getHitbox().getH()/2};
 }
 
 std::pair<float, float> Controller::getHitboxRightCorner() {
-    return std::pair<float, float>(model->getX() + getHitbox().getW()/2, model->getY() - getHitbox().getH()/2);
+    return {model->getX() + getHitbox().getW()/2, model->getY() - getHitbox().getH()/2};
 }
 
 bool Controller::collides(Controller &otherController) {
@@ -102,10 +97,6 @@ int Controller::moveHorizontal() {
     if(model->isScreenlocked() && isOffScreen(newX, model->getY())) return 0;
     model->setX(newX);
     return 0;
-}
-
-Controller::~Controller() {
-
 }
 
 bool Controller::hasObserver() {

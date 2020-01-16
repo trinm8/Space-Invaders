@@ -31,13 +31,13 @@ void Global::Stopwatch::startClock() {
 
 bool Global::Stopwatch::isLaggingBehind() {
     //std::cout << lag << std::endl;
-    return lag >= MS_PER_UPDATE; //&& loops < MAX_FRAMESKIP;
+    return lag >= MS_PER_UPDATE && loops < MAX_FRAMESKIP;
     //std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - startInterval).count() << std::endl;
     //return std::chrono::steady_clock::now() > startInterval && loops < MAX_FRAMESKIP;
 }
 
 void Global::Stopwatch::updateLag() {
-    lag = lag - MS_PER_UPDATE;
+    lag -= MS_PER_UPDATE;
     loops++;
     //startInterval += std::chrono::milliseconds(SKIP_TICKS);
 }
@@ -60,6 +60,6 @@ void Global::Stopwatch::sleep() {
 void Global::Stopwatch::calculateDelta() {
     //std::cout << deltatime << std::endl;
     //deltatime = elapsed;
-    deltatime = lag/MS_PER_UPDATE;
+    deltatime = (float)(lag/MS_PER_UPDATE);
     //deltatime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() + std::chrono::milliseconds(SKIP_TICKS) - startInterval).count()/(float)SKIP_TICKS;
 }

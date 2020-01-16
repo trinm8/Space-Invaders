@@ -28,7 +28,7 @@ public:
 
     Controller();
 
-    Controller(std::shared_ptr<Observer> SFMLmanager);
+    explicit Controller(std::shared_ptr<Observer> SFMLmanager);
 
     virtual int update(std::vector<std::shared_ptr<Controller>>& controller) = 0;
 
@@ -41,8 +41,6 @@ public:
     virtual int shoot(std::vector<std::shared_ptr<Controller>> &Controllers);
 
     virtual bool isOffScreen(float X, float Y);
-
-    virtual void setPos(float x, float y);
 
     bool isExpired() const;
 
@@ -62,7 +60,7 @@ public:
 
     virtual int onCollision(Controller& other) = 0;
 
-    virtual ~Controller();
+    virtual ~Controller() = default;
 
     bool hasObserver();
 

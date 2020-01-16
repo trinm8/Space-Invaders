@@ -13,7 +13,7 @@ ControllerBullet::ControllerBullet(float posX, float posY, int direction){
     model->setLives(1);
     model->setDeadly(true);
     model->setDirectionY(direction);
-    model->setSpeedY(0.001f);
+    model->setSpeedY(0.005f);
     model->setScreenlocked(false);
     //TODO: Needs better solution
     needsObserver = true;

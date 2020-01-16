@@ -7,10 +7,5 @@
 
 #include "View.h"
 
-class ViewPlayer: public View {
-
-
-};
-
 
 #endif //SMFL_TEST_VIEWPLAYER_H
