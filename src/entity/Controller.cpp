@@ -3,6 +3,8 @@
 //
 
 #include "Controller.h"
+
+#include <utility>
 #include "ControllerBullet.h"
 #include "Defines.h"
 #include "Stopwatch.h"
@@ -11,9 +13,10 @@ Controller::Controller(){
     expired = false;
 }
 
-Controller::Controller(Observer &SFMLmanager) {
+Controller::Controller(std::shared_ptr<Observer> SFMLmanager) {
     expired = false;
-    addObserver(std::shared_ptr<Observer>(&SFMLmanager));
+    needsObserver = false;
+    addObserver(std::move(SFMLmanager));
 }
 
 
@@ -30,12 +33,12 @@ bool Controller::isOffScreen(float X, float Y) {
     || (MaxLogicX >= x + (model->getHitbox().getW())/2 && x - (model->getHitbox().getW())/2 <= -MaxLogicX);*/
 }
 
-int Controller::shoot(std::vector<std::unique_ptr<Controller>> &Controllers) {
+int Controller::shoot(std::vector<std::shared_ptr<Controller>> &Controllers) {
     if(model->getFireCooldown() != 0) return 0;
-    std::unique_ptr<ControllerBullet> bullet = std::make_unique<ControllerBullet>(model->getX(), model->getY() + model->getHitbox().getH(), model->getDirectionY());
+    std::shared_ptr<ControllerBullet> bullet = std::make_shared<ControllerBullet>(model->getX(), model->getY() + (model->getSpeedY() + model->getHitbox().getH() * (float) model->getDirectionY()) , model->getDirectionY());
     notify(*bullet, Events::event::CreateBulletView);
     Controllers.push_back(std::move(bullet));
-    model->setFireCooldown(400);
+    model->setFireCooldown(2000);
     return 0;
 }
 
@@ -68,8 +71,8 @@ std::pair<float, float> Controller::getHitboxRightCorner() {
 
 bool Controller::collides(Controller &otherController) {
     std::pair<float, float> cornerL1 = getHitboxLeftCorner();
-    std::pair<float, float> cornerL2 = getHitboxLeftCorner();
-    std::pair<float, float> cornerR1 = otherController.getHitboxRightCorner();
+    std::pair<float, float> cornerL2 = otherController.getHitboxLeftCorner();
+    std::pair<float, float> cornerR1 = getHitboxRightCorner();
     std::pair<float, float> cornerR2 = otherController.getHitboxRightCorner();
 
     return !((cornerL1.first > cornerR2.first || cornerL2.first > cornerR1.first) ||
@@ -99,6 +102,22 @@ int Controller::moveHorizontal() {
     if(model->isScreenlocked() && isOffScreen(newX, model->getY())) return 0;
     model->setX(newX);
     return 0;
+}
+
+Controller::~Controller() {
+
+}
+
+bool Controller::hasObserver() {
+    return !needsObserver;
+}
+
+void Controller::gotObserver() {
+    needsObserver = false;
+}
+
+int Controller::getLives() const {
+    return model->getLives();
 }
 
 

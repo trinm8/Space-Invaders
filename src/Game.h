@@ -12,12 +12,12 @@
 
 class Game {
 
-   std::unique_ptr<WorldController> currentLevel;
-   SFMLmanager graphicsmanager;
-   std::vector<std::unique_ptr<Controller>> controllers;
+   std::shared_ptr<WorldController> currentLevel;
+   std::shared_ptr<SFMLmanager> graphicsmanager;
+   std::vector<std::shared_ptr<Controller>> controllers;
 
 
-   int initGame(SFMLmanager& manager);
+   int initGame();
 
 public:
 
@@ -29,9 +29,13 @@ public:
 
     bool offscreen(float posX, float posY);
 
+    int fixNewEntities();
+
     int expiredRemove();
 
     int collisionChecks();
+
+    int loadnextlevel();
 
 };
 

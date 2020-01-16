@@ -5,9 +5,10 @@
 #include "ControllerEnemy.h"
 #include "EntityEnemy.h"
 
-int ControllerEnemy::update(std::vector<std::unique_ptr<Controller>> &controller) {
+int ControllerEnemy::update(std::vector<std::shared_ptr<Controller>> &controller) {
 
     model = start;
+    timebetweenshots++;
 
     if(reachedEdge()){
         lowerLevel();
@@ -19,6 +20,10 @@ int ControllerEnemy::update(std::vector<std::unique_ptr<Controller>> &controller
         model = current;
         model->setDirectionX(direction);
         moveHorizontal();
+        if(model->getFireCooldown() > 0){
+            model->FireCooldownTick(1);
+        }
+
         //float newX = current->getX() + (0.01f * (float)direction);
         //current->setX(newX);
         /*        if(isOffScreen(newX, current->getY())){
@@ -28,31 +33,53 @@ int ControllerEnemy::update(std::vector<std::unique_ptr<Controller>> &controller
         }*/
 
     }
+
+    if(timebetweenshots >= 1000) {
+        std::vector<std::shared_ptr<EntityEnemy>> ready = getShootReadyEnemies();
+        if(!ready.empty() && !reachedEdge()) {
+            int nextshoot = rand() % ready.size() - 1 + 1;
+            model = ready[nextshoot];
+            shoot(controller);
+            timebetweenshots = 0;
+        }
+    }
+
     return 0;
 }
 
 //we create a linked list of enemies and will parse through them to update each one of them
-ControllerEnemy::ControllerEnemy(int enemyCount, Observer& SFMLmanager): Controller(SFMLmanager) {
+ControllerEnemy::ControllerEnemy(int enemyCount, std::shared_ptr<Observer> SFMLmanager, int lives)
+        : Controller(SFMLmanager) {
     direction = -1;
+    timebetweenshots = 0;
+
     model = std::make_shared<EntityEnemy>();
-    model->setHitbox(Hitbox(0.2, 0.2));
+    model->setHitbox(Hitbox(0.2, 0.25));
     model->setDeadly(false);
-    model->setLives(2);
+    model->setLives(lives);
     model->setSpeedX(0.00015f);
+    model->setSpeedY(0.05f);
+    model->setDirectionY(-1);
     model->setScreenlocked(true);
+    model->setFireCooldown(0);
     notify(*this, Events::CreateEnemyView);
     for (int i = 0; i < enemyCount - 1; ++i) {
         std::shared_ptr<EntityEnemy> created = std::make_shared<EntityEnemy>(
                 std::static_pointer_cast<EntityEnemy>(model));
-        created->setHitbox(Hitbox(0.2, 0.2));
+        created->setHitbox(Hitbox(0.2, 0.25));
         created->setDeadly(false);
-        created->setLives(2);
+        created->setLives(lives);
         created->setSpeedX(0.00015f);
+        created->setSpeedY(0.05f);
+        created->setDirectionY(-1);
         created->setScreenlocked(true);
+        created->setFireCooldown(0);
         model = created;
         notify(*this, Events::CreateEnemyView);
     }
     start = std::static_pointer_cast<EntityEnemy>(model);
+
+    //TODO: Values hier aanpassen
 
 
     //TODO: Function wrapper?
@@ -92,7 +119,7 @@ bool ControllerEnemy::reachedEdge() {
 
 void ControllerEnemy::lowerLevel() {
     for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
-        current->setY(current->getY()-0.1f);
+        current->setY(current->getY()-current->getSpeedY());
     }
 }
 
@@ -170,4 +197,32 @@ int ControllerEnemy::onCollision(Controller &other) {
         }
     }
     return 0;
+}
+
+bool ControllerEnemy::enemyinfront(std::shared_ptr<EntityEnemy> toCheck) {
+    for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
+        if(abs(current->getX() - toCheck->getX()) < std::numeric_limits<double>::epsilon() && current != toCheck && current->getY() < toCheck->getY()){
+            return true;}
+    }
+    return false;
+}
+
+std::vector<std::shared_ptr<EntityEnemy>> ControllerEnemy::getShootReadyEnemies() {
+    std::vector<std::shared_ptr<EntityEnemy>> ready;
+    for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
+        if(!enemyinfront(current) && current->getFireCooldown() == 0){
+            ready.push_back(current);
+        }
+    }
+    return ready;
+}
+
+float ControllerEnemy::getlowestY() {
+    float minY = 0;
+    for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
+        if(current->getY() < minY) {
+            minY = current->getY();
+        }
+    }
+    return minY;
 }

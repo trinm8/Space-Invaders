@@ -15,11 +15,14 @@ public:
 
     ControllerPlayer();
 
-    ControllerPlayer(Observer& SFMLmanager);
+    ControllerPlayer(std::shared_ptr<Observer> SFMLmanager);
 
-    int update(std::vector<std::unique_ptr<Controller>>& controller);
+    int update(std::vector<std::shared_ptr<Controller>>& controller);
 
     int onCollision(Controller &other) override;
+
+    virtual ~ControllerPlayer();
+
 };
 
 

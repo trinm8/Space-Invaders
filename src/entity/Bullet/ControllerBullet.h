@@ -12,9 +12,12 @@ class ControllerBullet: public Controller {
 public:
     ControllerBullet(float posX, float posY, int direction);
 
-    int update(std::vector<std::unique_ptr<Controller>>& controller) override;
+    int update(std::vector<std::shared_ptr<Controller>>& controller) override;
 
     int onCollision(Controller &other) override;
+
+
+
 };
 
 

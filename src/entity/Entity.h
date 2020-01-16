@@ -24,6 +24,7 @@ class Entity {
     int directionX;
     bool screenlocked;
 
+
 public:
     double getFireCooldown() const;
 

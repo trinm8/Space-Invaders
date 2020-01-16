@@ -12,11 +12,15 @@ class ControllerEnemy: public Controller {
 
     std::shared_ptr<EntityEnemy> start;
 
+    int maxfiring;
+
+    int timebetweenshots;
+
 public:
 
-    ControllerEnemy(int enemyCount, Observer& SFMLmanager);
+    ControllerEnemy(int enemyCount, std::shared_ptr<Observer> SFMLmanager, int lives);
 
-    int update(std::vector<std::unique_ptr<Controller>> &controller) override;
+    int update(std::vector<std::shared_ptr<Controller>> &controller) override;
 
     bool reachedEdge();
 
@@ -29,6 +33,12 @@ public:
     int getEnemysize();
 
     int onCollision(Controller &other) override;
+
+    bool enemyinfront(std::shared_ptr<EntityEnemy> toCheck);
+
+    std::vector<std::shared_ptr<EntityEnemy>> getShootReadyEnemies();
+
+    float getlowestY();
 };
 
 

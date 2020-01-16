@@ -5,8 +5,10 @@
 #ifndef SMFL_TEST_WORLDVIEW_H
 #define SMFL_TEST_WORLDVIEW_H
 
+#include "View.h"
 
 class WorldView {
+
 
 };
 

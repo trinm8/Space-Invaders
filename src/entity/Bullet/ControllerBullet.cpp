@@ -6,18 +6,20 @@
 #include "EntityBullet.h"
 
 ControllerBullet::ControllerBullet(float posX, float posY, int direction){
-    model = std::make_unique<EntityBullet>();
-    model->setHitbox(Hitbox(0.01, 0.01));
+    model = std::make_shared<EntityBullet>();
+    model->setHitbox(Hitbox(0.02, 0.1));
     model->setX(posX);
-    model->setY(posY);
+    model->setY(posY + (model->getHitbox().getH()/2) * (float)direction);
     model->setLives(1);
     model->setDeadly(true);
     model->setDirectionY(direction);
-    model->setSpeedY(0.004f);
+    model->setSpeedY(0.001f);
     model->setScreenlocked(false);
+    //TODO: Needs better solution
+    needsObserver = true;
 }
 
-int ControllerBullet::update(std::vector<std::unique_ptr<Controller>>& controller) {
+int ControllerBullet::update(std::vector<std::shared_ptr<Controller>>& controller) {
     moveVertical();
     if(isOffScreen(model->getX(), model->getY())){
         makeExpired();

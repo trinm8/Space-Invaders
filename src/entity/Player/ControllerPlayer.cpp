@@ -9,12 +9,12 @@
 #include "InputHandler.h"
 #include "Command.h"
 
-ControllerPlayer::ControllerPlayer(Observer& SFMLmanager): Controller(SFMLmanager) {
+ControllerPlayer::ControllerPlayer(std::shared_ptr<Observer> SFMLmanager): Controller(SFMLmanager) {
     model = std::make_shared<EntityPlayer>();
     //addObserver(std::shared_ptr<Observer>(&SFMLmanager));
     notify(*this, Events::event::CreatePlayerView);
-    model->getHitbox().setW(0.1);
-    model->getHitbox().setH(0.1);
+    model->getHitbox().setW(0.2);
+    model->getHitbox().setH(0.25);
     model->setX(2.f);
     model->setY(-2.5f);
     model->setLives(3);
@@ -22,9 +22,10 @@ ControllerPlayer::ControllerPlayer(Observer& SFMLmanager): Controller(SFMLmanage
     model->setDirectionY(1);
     model->setSpeedX(0.001f);
     model->setScreenlocked(true);
+    notify(*this, Events::event::UpdatePlayerHealth);
 }
 
-int ControllerPlayer::update(std::vector<std::unique_ptr<Controller>>& controller) {
+int ControllerPlayer::update(std::vector<std::shared_ptr<Controller>>& controller) {
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
         model->setDirectionX(-1);
         moveHorizontal();
@@ -45,6 +46,12 @@ int ControllerPlayer::update(std::vector<std::unique_ptr<Controller>>& controlle
 int ControllerPlayer::onCollision(Controller &other) {
     if(other.isDeadly()){
         takeDamage(1);
+        notify(*this, Events::event::UpdatePlayerHealth);
     }
     return 0;
+}
+
+ControllerPlayer::~ControllerPlayer() {
+    expired = true;
+    notify(*this, Events::Expired);
 }

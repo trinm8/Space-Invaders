@@ -22,9 +22,12 @@ protected:
     void notify( Controller& entity, Events::event events);
 
 public:
+
+
     void addObserver(std::shared_ptr<Observer> observer);
 
     void removeObserver(std::shared_ptr<Observer> observer);
+
 };
 
 

@@ -10,7 +10,7 @@
 namespace Events {
 
     enum event {
-        CreatePlayerView, UpdataView, CreateBulletView, CreateEnemyView, Expired
+        CreatePlayerView, CreateBulletView, CreateEnemyView, Expired, Win, UpdatePlayerHealth
     };
 
 }

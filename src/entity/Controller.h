@@ -22,13 +22,15 @@ protected:
 
     std::shared_ptr<Entity> model;
 
+    bool needsObserver;
+
 public:
 
     Controller();
 
-    Controller(Observer& SFMLmanager);
+    Controller(std::shared_ptr<Observer> SFMLmanager);
 
-    virtual int update(std::vector<std::unique_ptr<Controller>>& controller) = 0;
+    virtual int update(std::vector<std::shared_ptr<Controller>>& controller) = 0;
 
     [[nodiscard]] const std::shared_ptr<Entity> &getModel() const;
 
@@ -36,7 +38,7 @@ public:
 
     int moveVertical();
 
-    virtual int shoot(std::vector<std::unique_ptr<Controller>> &Controllers);
+    virtual int shoot(std::vector<std::shared_ptr<Controller>> &Controllers);
 
     virtual bool isOffScreen(float X, float Y);
 
@@ -59,6 +61,14 @@ public:
     int takeDamage(int value);
 
     virtual int onCollision(Controller& other) = 0;
+
+    virtual ~Controller();
+
+    bool hasObserver();
+
+    void gotObserver();
+
+    int getLives() const;
 
 };
 

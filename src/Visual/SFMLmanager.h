@@ -17,12 +17,16 @@ class SFMLmanager: public Observer {
 
     std::shared_ptr<sf::RenderWindow> window;
     std::vector<std::shared_ptr<View>> views;
+    std::shared_ptr<sf::Font> font;
+    std::vector<std::shared_ptr<sf::Text>> texts;
+    std::shared_ptr<sf::Text> playerLife;
+    bool once;
 
 public:
 
     SFMLmanager() = default;
 
-    SFMLmanager(sf::RenderWindow& window);
+    SFMLmanager(std::shared_ptr<sf::RenderWindow> window);
 
     int placeholder();
 
@@ -32,6 +36,7 @@ public:
 
     void onNotify(Controller& controller , Events::event event);
 
+    void gameover(std::string message);
 
 };
 
