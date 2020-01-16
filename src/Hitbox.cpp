@@ -6,18 +6,10 @@
 
 Hitbox::Hitbox(float w, float h) : w(w), h(h) {}
 
-void Hitbox::setW(float w) {
-    Hitbox::w = w;
-}
+void Hitbox::setW(float newW) { Hitbox::w = newW; }
 
-void Hitbox::setH(float h) {
-    Hitbox::h = h;
-}
+void Hitbox::setH(float newH) { Hitbox::h = newH; }
 
-float Hitbox::getW() const {
-    return w;
-}
+float Hitbox::getW() const { return w; }
 
-float Hitbox::getH() const {
-    return h;
-}
+float Hitbox::getH() const { return h; }

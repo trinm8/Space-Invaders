@@ -5,74 +5,77 @@
 #ifndef SMFL_TEST_ENTITY_H
 #define SMFL_TEST_ENTITY_H
 
-#include <memory>
-#include "Hitbox.h"
 #include "Controller.h"
+#include "Hitbox.h"
+#include <memory>
 
 class Controller;
 
-class Entity {
+class Entity
+{
 
-    float x, y;
-    Hitbox hitbox;
-    double fireCooldown;
-    int lives;
-    bool deadly;
-    float speedY;
-    float speedX;
-    int directionY;
-    int directionX;
-    bool screenlocked;
-
+        float x, y;
+        Hitbox hitbox;
+        double fireCooldown;
+        int lives;
+        bool deadly;
+        float speedY;
+        float speedX;
+        int directionY;
+        int directionX;
+        bool screenlocked;
+        std::string textureLocation;
 
 public:
-    double getFireCooldown() const;
+        double getFireCooldown() const;
 
-    void setFireCooldown(double fireCooldown);
+        void setFireCooldown(double fireCooldown);
 
-    void FireCooldownTick(double percent);
+        void FireCooldownTick(double percent);
 
-    void setHitbox(const Hitbox &hitbox);
+        void setHitbox(const Hitbox& hitbox);
 
-    float getX() const;
+        float getX() const;
 
-    float getY() const;
+        float getY() const;
 
-    void setX(float x);
+        void setX(float x);
 
-    void setY(float y);
+        void setY(float y);
 
-    Hitbox &getHitbox();
+        Hitbox& getHitbox();
 
-    int getLives() const;
+        int getLives() const;
 
-    void setLives(int lives);
+        void setLives(int lives);
 
-    bool isDeadly() const;
+        bool isDeadly() const;
 
-    void setDeadly(bool deadly);
+        void setDeadly(bool deadly);
 
-    float getSpeedY() const;
+        float getSpeedY() const;
 
-    void setSpeedY(float speedY);
+        void setSpeedY(float speedY);
 
-    int getDirectionY() const;
+        int getDirectionY() const;
 
-    void setDirectionY(int directionY);
+        void setDirectionY(int directionY);
 
-    float getSpeedX() const;
+        float getSpeedX() const;
 
-    void setSpeedX(float speedX);
+        void setSpeedX(float speedX);
 
-    int getDirectionX() const;
+        int getDirectionX() const;
 
-    void setDirectionX(int directionX);
+        void setDirectionX(int directionX);
 
-    bool isScreenlocked() const;
+        bool isScreenlocked() const;
 
-    void setScreenlocked(bool screenlocked);
+        void setScreenlocked(bool screenlocked);
 
+    const std::string &getTextureLocation() const;
+
+    void setTextureLocation(const std::string &textureLocation);
 };
 
-
-#endif //SMFL_TEST_ENTITY_H
+#endif // SMFL_TEST_ENTITY_H

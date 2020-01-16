@@ -12,11 +12,11 @@
 class Controller;
 class View;
 
-class Observer {
+class Observer
+{
 
 public:
-    virtual void onNotify(Controller& controller, Events::event event) = 0;
+        virtual void onNotify(Controller& controller, Events::event event) = 0;
 };
 
-
-#endif //SMFL_TEST_OBSERVER_H
+#endif // SMFL_TEST_OBSERVER_H

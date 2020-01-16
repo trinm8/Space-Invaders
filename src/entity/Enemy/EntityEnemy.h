@@ -7,23 +7,19 @@
 
 #include "Entity.h"
 
-class EntityEnemy: public Entity {
+class EntityEnemy : public Entity
+{
 
-    std::shared_ptr<EntityEnemy> nextEnemy;
+        std::shared_ptr<EntityEnemy> nextEnemy;
 
 public:
+        EntityEnemy();
 
-    EntityEnemy();
+        explicit EntityEnemy(std::shared_ptr<EntityEnemy> next);
 
-    EntityEnemy(std::shared_ptr<EntityEnemy> next);
+        std::shared_ptr<EntityEnemy>& getNextEnemy();
 
-    std::shared_ptr<EntityEnemy> &getNextEnemy();
-
-    void setNextEnemy(const std::shared_ptr<EntityEnemy> &nextEnemy);
-
-
-
+        void setNextEnemy(const std::shared_ptr<EntityEnemy>& nextEnemy);
 };
 
-
-#endif //SMFL_TEST_ENTITYENEMY_H
+#endif // SMFL_TEST_ENTITYENEMY_H

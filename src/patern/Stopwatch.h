@@ -9,23 +9,21 @@
 
 namespace Global {
 
-    class Stopwatch {
+class Stopwatch
+{
 
-        Stopwatch(){}
+        Stopwatch() = default;
 
         static std::chrono::steady_clock::time_point previousStart;
         static std::chrono::steady_clock::time_point startInterval;
 
-        static int TICKS_PER_SECOND;
-        static int SKIP_TICKS;
-        static int MAX_FRAMESKIP;
+        static int maxSkip;
         static float deltatime;
         static int loops;
         static double lag;
         static double elapsed;
 
-    public:
-
+public:
         static void startGame();
 
         static bool isLaggingBehind();
@@ -37,11 +35,8 @@ namespace Global {
         static float getDeltaTime();
 
         static void startClock();
+};
 
-        static void sleep();
+} // namespace Global
 
-    };
-
-}
-
-#endif //SMFL_TEST_STOPWATCH_H
+#endif // SMFL_TEST_STOPWATCH_H

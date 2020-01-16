@@ -5,23 +5,22 @@
 #ifndef SMFL_TEST_HITBOX_H
 #define SMFL_TEST_HITBOX_H
 
+class Hitbox
+{
+        float w, h;
 
-class Hitbox {
-    float w,h;
 public:
+        Hitbox() = default;
 
-    Hitbox()= default;
+        Hitbox(float w, float h);
 
-    Hitbox(float w, float h);
+        void setW(float newW);
 
-    void setW(float w);
+        void setH(float newH);
 
-    void setH(float h);
+        float getW() const;
 
-    float getW() const;
-
-    float getH() const;
+        float getH() const;
 };
 
-
-#endif //SMFL_TEST_HITBOX_H
+#endif // SMFL_TEST_HITBOX_H

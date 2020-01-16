@@ -8,19 +8,17 @@
 #include "Controller.h"
 #include "Events.h"
 
-class ControllerPlayer: public Controller {
+class ControllerPlayer : public Controller
+{
 
 public:
+        explicit ControllerPlayer(const std::shared_ptr<Observer> &SFMLmanager, const std::string& textureLocation);
 
-    explicit ControllerPlayer(std::shared_ptr<Observer> SFMLmanager);
+        int update(std::vector<std::shared_ptr<Controller>>& controller) override;
 
-    int update(std::vector<std::shared_ptr<Controller>>& controller) override;
+        int onCollision(Controller& other) override;
 
-    int onCollision(Controller &other) override;
-
-    ~ControllerPlayer() override;
-
+        ~ControllerPlayer() override;
 };
 
-
-#endif //SMFL_TEST_CONTROLLERPLAYER_H
+#endif // SMFL_TEST_CONTROLLERPLAYER_H

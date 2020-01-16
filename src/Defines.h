@@ -15,4 +15,4 @@
 
 #define MS_PER_UPDATE 2500000
 
-#endif //SMFL_TEST_DEFINES_H
+#endif // SMFL_TEST_DEFINES_H

@@ -1,4 +1,4 @@
-//x
+// x
 // Created by timsa on 20-Dec-19.
 //
 
@@ -7,16 +7,16 @@
 
 namespace Global {
 
-    class Transformation {
+class Transformation
+{
 
         static int screensizeX, screensizeY;
         static float maxLogicX, maxLogicY;
 
-        Transformation(){};
+        Transformation() = default;
 
-    public:
-
-        static void update(int screensizeX, int screensizeY);
+public:
+        static void update(int newScreensizeX, int newScreensizeY);
 
         static float transformationX(float x);
 
@@ -25,9 +25,7 @@ namespace Global {
         static float transformationY(float y);
 
         static float scaleY(float screensize);
+};
+} // namespace Global
 
-    };
-}
-
-
-#endif //SMFL_TEST_TRANSFORMATION_H
+#endif // SMFL_TEST_TRANSFORMATION_H

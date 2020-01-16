@@ -5,18 +5,10 @@
 #include "EntityEnemy.h"
 #include <utility>
 
-EntityEnemy::EntityEnemy(std::shared_ptr<EntityEnemy> next) {
-    nextEnemy = std::move(next);
-}
+EntityEnemy::EntityEnemy(std::shared_ptr<EntityEnemy> next) : Entity() { nextEnemy = std::move(next); }
 
-EntityEnemy::EntityEnemy() {
-    nextEnemy = nullptr;
-}
+EntityEnemy::EntityEnemy() : Entity() { nextEnemy = nullptr; }
 
-std::shared_ptr<EntityEnemy> &EntityEnemy::getNextEnemy() {
-    return nextEnemy;
-}
+std::shared_ptr<EntityEnemy>& EntityEnemy::getNextEnemy() { return nextEnemy; }
 
-void EntityEnemy::setNextEnemy(const std::shared_ptr<EntityEnemy> &nextEnemy) {
-    EntityEnemy::nextEnemy = nextEnemy;
-}
+void EntityEnemy::setNextEnemy(const std::shared_ptr<EntityEnemy>& nextEnemy) { EntityEnemy::nextEnemy = nextEnemy; }

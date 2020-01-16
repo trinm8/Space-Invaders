@@ -5,13 +5,17 @@
 #ifndef SMFL_TEST_EVENTS_H
 #define SMFL_TEST_EVENTS_H
 
-//TODO: mss een efficientere oplossing?
+// TODO: mss een efficientere oplossing?
 
 namespace Events {
 
-    enum event {
-        CreatePlayerView, CreateBulletView, CreateEnemyView, Expired, Win, UpdatePlayerHealth
-    };
+enum event
+{
+        createView,
+        expired,
+        win,
+        updatePlayerHealth
+};
 
 }
-#endif //SMFL_TEST_EVENTS_H
+#endif // SMFL_TEST_EVENTS_H

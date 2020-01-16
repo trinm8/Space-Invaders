@@ -8,36 +8,38 @@
 #include "Controller.h"
 #include "EntityEnemy.h"
 
-class ControllerEnemy: public Controller {
+class ControllerEnemy : public Controller
+{
 
-    std::shared_ptr<EntityEnemy> start;
+        std::shared_ptr<EntityEnemy> start;
 
-    int timebetweenshots;
+        int timebetweenshots;
 
 public:
+        ControllerEnemy(int enemyCount, const std::shared_ptr<Observer> &SFMLmanager,
+                        const std::string &textureLocation);
 
-    ControllerEnemy(int enemyCount, const std::shared_ptr<Observer>& SFMLmanager, int lives);
+        int update(std::vector<std::shared_ptr<Controller>>& controller) override;
 
-    int update(std::vector<std::shared_ptr<Controller>> &controller) override;
+        bool reachedEdge();
 
-    bool reachedEdge();
+        void lowerLevel();
 
-    void lowerLevel();
+        bool collides(Controller& otherController) override;
 
-    bool collides(Controller& otherController);
+        void removeEnemy();
 
-    void removeEnemy();
+        int getEnemysize();
 
-    int getEnemysize();
+        int onCollision(Controller& other) override;
 
-    int onCollision(Controller &other) override;
+        bool enemyinfront(const std::shared_ptr<EntityEnemy>& toCheck);
 
-    bool enemyinfront(const std::shared_ptr<EntityEnemy>& toCheck);
+        std::vector<std::shared_ptr<EntityEnemy>> getShootReadyEnemies();
 
-    std::vector<std::shared_ptr<EntityEnemy>> getShootReadyEnemies();
+        float getlowestY();
 
-    float getlowestY();
+    void setTextureLocation(const std::string &location) override;
 };
 
-
-#endif //SMFL_TEST_CONTROLLERENEMY_H
+#endif // SMFL_TEST_CONTROLLERENEMY_H

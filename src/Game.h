@@ -5,39 +5,36 @@
 #ifndef SMFL_TEST_GAME_H
 #define SMFL_TEST_GAME_H
 
-#include <iostream>
 #include "Controller.h"
-#include "WorldController.h"
 #include "SFMLmanager.h"
+#include "WorldController.h"
+#include <iostream>
 
-class Game {
+class Game
+{
 
-   std::shared_ptr<WorldController> currentLevel;
-   std::shared_ptr<SFMLmanager> graphicsmanager;
-   std::vector<std::shared_ptr<Controller>> controllers;
+        std::shared_ptr<WorldController> currentLevel;
+        std::shared_ptr<SFMLmanager> graphicsmanager;
+        std::vector<std::shared_ptr<Controller>> controllers;
 
-
-   int initGame();
+        int initGame();
 
 public:
+        explicit Game() = default;
 
-    Game();
+        int run();
 
-    int run();
+        int update();
 
-    int update();
+        int fixNewEntities();
 
-    bool offscreen(float posX, float posY);
+        int expiredRemove();
 
-    int fixNewEntities();
+        int collisionChecks();
 
-    int expiredRemove();
+        int loadnextlevel();
 
-    int collisionChecks();
-
-    int loadnextlevel();
-
+        int render();
 };
 
-
-#endif //SMFL_TEST_GAME_H
+#endif // SMFL_TEST_GAME_H

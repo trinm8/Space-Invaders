@@ -10,23 +10,16 @@ int Global::Transformation::screensizeY = screensizey;
 float Global::Transformation::maxLogicX = MaxLogicX;
 float Global::Transformation::maxLogicY = MaxLogicY;
 
-float Global::Transformation::transformationX(float x) {
-    return ((float)screensizeX/maxLogicX)*x ;
+float Global::Transformation::transformationX(float x) { return ((float)screensizeX / maxLogicX) * x; }
+
+float Global::Transformation::transformationY(float y) { return -((float)screensizeY / maxLogicY) * y; }
+
+void Global::Transformation::update(int newScreensizeX, int newScreensizeY)
+{
+        Transformation::screensizeX = newScreensizeX;
+        Transformation::screensizeY = newScreensizeY;
 }
 
-float Global::Transformation::transformationY(float y) {
-    return -((float)screensizeY/maxLogicY)*y ;
-}
+float Global::Transformation::scaleX(float screensize) { return screensize / (float)defaultscreenX; }
 
-void Global::Transformation::update(int screensizeX, int screensizeY) {
-    Transformation::screensizeX = screensizeX;
-    Transformation::screensizeY = screensizeY;
-}
-
-float Global::Transformation::scaleX(float screensize) {
-    return screensize/(float)defaultscreenX;
-}
-
-float Global::Transformation::scaleY(float screensize) {
-    return screensize/(float)defaultscreenY;
-}
+float Global::Transformation::scaleY(float screensize) { return screensize / (float)defaultscreenY; }

@@ -5,70 +5,68 @@
 #ifndef SMFL_TEST_CONTROLLER_H
 #define SMFL_TEST_CONTROLLER_H
 
-#include <iostream>
 #include "Entity.h"
-#include "View.h"
 #include "Subject.h"
+#include "View.h"
+#include "Hitbox.h"
+#include <iostream>
 
-class Controller: public Subject {
-
-
+class Controller : public Subject
+{
 
 protected:
+        bool expired;
 
-    bool expired;
+        int direction{};
 
-    int direction{};
+        std::shared_ptr<Entity> model;
 
-    std::shared_ptr<Entity> model;
-
-    bool needsObserver;
+        bool needsObserver;
 
 public:
+        Controller();
 
-    Controller();
+        explicit Controller(const std::shared_ptr<Observer>& SFMLmanager);
 
-    explicit Controller(const std::shared_ptr<Observer>& SFMLmanager);
+        virtual int update(std::vector<std::shared_ptr<Controller>>& controller) = 0;
 
-    virtual int update(std::vector<std::shared_ptr<Controller>>& controller) = 0;
+        [[nodiscard]] const std::shared_ptr<Entity>& getModel() const;
 
-    [[nodiscard]] const std::shared_ptr<Entity> &getModel() const;
+        int moveHorizontal();
 
-    int moveHorizontal();
+        int moveVertical();
 
-    int moveVertical();
+        virtual int shoot(std::vector<std::shared_ptr<Controller>>& Controllers);
 
-    virtual int shoot(std::vector<std::shared_ptr<Controller>> &Controllers);
+        virtual bool isOffScreen(float X, float Y);
 
-    virtual bool isOffScreen(float X, float Y);
+        bool isExpired() const;
 
-    bool isExpired() const;
+        void makeExpired();
 
-    void makeExpired();
+        Hitbox& getHitbox();
 
-    Hitbox getHitbox();
+        std::pair<float, float> getHitboxLeftCorner();
 
-    std::pair<float, float> getHitboxLeftCorner();
+        std::pair<float, float> getHitboxRightCorner();
 
-    std::pair<float, float> getHitboxRightCorner();
+        virtual bool collides(Controller& otherController);
 
-    virtual bool collides(Controller& otherController);
+        bool isDeadly();
 
-    bool isDeadly();
+        int takeDamage(int value);
 
-    int takeDamage(int value);
+        virtual int onCollision(Controller& other) = 0;
 
-    virtual int onCollision(Controller& other) = 0;
+        ~Controller() override;
 
-    virtual ~Controller();
+        bool hasObserver();
 
-    bool hasObserver();
+        void gotObserver();
 
-    void gotObserver();
+        int getLives() const;
 
-    int getLives() const;
-
+        virtual void setTextureLocation(const std::string& location);
 };
 
-
-#endif //SMFL_TEST_CONTROLLER_H
+#endif // SMFL_TEST_CONTROLLER_H
