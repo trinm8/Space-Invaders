@@ -22,7 +22,7 @@ double Global::Stopwatch::elapsed;
 
 void Global::Stopwatch::startClock() {
     startInterval = std::chrono::steady_clock::now();
-    elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(startInterval - previousStart).count();
+    elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(startInterval - previousStart).count();
     //deltatime = (float)elapsed;
     previousStart = startInterval;
     lag += elapsed;
