@@ -52,7 +52,7 @@ int SFMLmanager::draw() {
 void SFMLmanager::onNotify(Controller& controller, Events::event event) {
     if(event == Events::event::Win){
         //TODO::zorgen dat er maar 1 game over is
-        gameover(std::__cxx11::string());
+        gameover("YOU WIN");
     }
     if(event == Events::event::UpdatePlayerHealth){
         playerLife->setString("Health " + std::to_string(controller.getModel()->getLives()));
@@ -100,7 +100,11 @@ void SFMLmanager::onNotify(Controller& controller, Events::event event) {
                                            window->getSize().x, window->getSize().y));
 }
 
-void SFMLmanager::gameover(std::string message) {
+void SFMLmanager::clearAll() {
+    views.clear();
+}
+
+void SFMLmanager::gameover(const std::string& message) {
 
     if(once)
         return;

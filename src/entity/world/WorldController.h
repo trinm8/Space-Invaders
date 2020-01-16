@@ -20,7 +20,7 @@ public:
 
     WorldController(const std::shared_ptr<Observer> &sfmLmanager);
 
-    int initLevel(std::vector<std::shared_ptr<Controller>> &controllers, std::shared_ptr<Observer> SFMLmanager,
+    int initLevel(std::vector<std::shared_ptr<Controller>> &controllers, const std::shared_ptr<Observer>& SFMLmanager,
                   int levelnr);
 
     int update(std::vector<std::shared_ptr<Controller>> &controller) override;
@@ -34,6 +34,8 @@ public:
     [[nodiscard]] int getLevelnr() const;
 
     bool isLast() const;
+
+    bool endOfGame();
 
     int close();
 

@@ -3,10 +3,9 @@
 //
 
 #include "ControllerBullet.h"
-#include "EntityBullet.h"
 
 ControllerBullet::ControllerBullet(float posX, float posY, int direction){
-    model = std::make_shared<EntityBullet>();
+    model = std::make_shared<Entity>();
     model->setHitbox(Hitbox(0.02, 0.1));
     model->setX(posX);
     model->setY(posY + (model->getHitbox().getH()/2) * (float)direction);

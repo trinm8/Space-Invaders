@@ -6,22 +6,19 @@
 #define SMFL_TEST_CONTROLLERPLAYER_H
 
 #include "Controller.h"
-#include "EntityPlayer.h"
 #include "Events.h"
 
 class ControllerPlayer: public Controller {
 
 public:
 
-    ControllerPlayer();
+    explicit ControllerPlayer(std::shared_ptr<Observer> SFMLmanager);
 
-    ControllerPlayer(std::shared_ptr<Observer> SFMLmanager);
-
-    int update(std::vector<std::shared_ptr<Controller>>& controller);
+    int update(std::vector<std::shared_ptr<Controller>>& controller) override;
 
     int onCollision(Controller &other) override;
 
-    virtual ~ControllerPlayer();
+    ~ControllerPlayer() override;
 
 };
 

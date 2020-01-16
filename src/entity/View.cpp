@@ -3,15 +3,16 @@
 //
 
 #include "View.h"
+
+#include <utility>
 #include "Subject.h"
 #include "Controller.h"
 #include "Transformation.h"
 #include "Stopwatch.h"
-#include "Defines.h"
 
 View::View(std::shared_ptr<sf::Texture> texture, std::shared_ptr<sf::Sprite> sprite, std::shared_ptr<Entity> model,
            float screensizeX, float screensizeY) : texture(std::move(texture)), sprite(std::move(sprite)){
-    this->model = model;
+    this->model = std::move(model);
     this->sprite->setTexture(*this->texture);
     this->sprite->setScale(Global::Transformation::scaleX(screensizeX), Global::Transformation::scaleY(screensizeY));
     //this->sprite->setScale(Global::Transformation::scaleX(screensizeX) * model->getHitbox().getW(), Global::Transformation::scaleY(screensizeY) * model->getHitbox().getH());
@@ -19,7 +20,7 @@ View::View(std::shared_ptr<sf::Texture> texture, std::shared_ptr<sf::Sprite> spr
 
 }
 
-int View::update(const std::shared_ptr<sf::RenderWindow> window) {
+int View::update(const std::shared_ptr<sf::RenderWindow>& window) {
 
     //std::cout << "RelativeVisual: " << Global::Transformation::transformationX(model->getX()) << ", " << Global::Transformation::transformationY(model->getY()) << std::endl;
     //std::cout << model->getX() << ", " <<  model->getY() << std::endl;

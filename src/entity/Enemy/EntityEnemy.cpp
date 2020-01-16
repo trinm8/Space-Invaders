@@ -3,9 +3,10 @@
 //
 
 #include "EntityEnemy.h"
+#include <utility>
 
 EntityEnemy::EntityEnemy(std::shared_ptr<EntityEnemy> next) {
-    nextEnemy = next;
+    nextEnemy = std::move(next);
 }
 
 EntityEnemy::EntityEnemy() {

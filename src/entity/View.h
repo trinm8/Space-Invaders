@@ -25,7 +25,7 @@ public:
     View(std::shared_ptr<sf::Texture> texture, std::shared_ptr<sf::Sprite> sprite, std::shared_ptr<Entity> model,
          float screensizeX, float screensizeY);
 
-    int update(std::shared_ptr<sf::RenderWindow> window);
+    int update(const std::shared_ptr<sf::RenderWindow>& window);
 
 };
 

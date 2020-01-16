@@ -7,16 +7,12 @@
 #include <utility>
 #include "ControllerBullet.h"
 #include "Defines.h"
-#include "Stopwatch.h"
 
-Controller::Controller(){
-    expired = false;
-}
-
-Controller::Controller(std::shared_ptr<Observer> SFMLmanager) {
+Controller::Controller(const std::shared_ptr<Observer>& SFMLmanager) {
     expired = false;
     needsObserver = false;
-    addObserver(std::move(SFMLmanager));
+    direction = 0;
+    addObserver(SFMLmanager);
 }
 
 
@@ -109,6 +105,16 @@ void Controller::gotObserver() {
 
 int Controller::getLives() const {
     return model->getLives();
+}
+
+Controller::~Controller() {
+    expired = true;
+    notify(*this, Events::event::Expired);
+}
+
+Controller::Controller() {
+    expired = false;
+    needsObserver = true;
 }
 
 

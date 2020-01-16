@@ -2,14 +2,12 @@
 // Created by timsa on 05-Dec-19.
 //
 
-#include <SFML/System.hpp>
 #include "ControllerPlayer.h"
-#include "EntityPlayer.h"
-#include "InputHandler.h"
-#include "Command.h"
 
-ControllerPlayer::ControllerPlayer(std::shared_ptr<Observer> SFMLmanager): Controller(SFMLmanager) {
-    model = std::make_shared<EntityPlayer>();
+#include <utility>
+
+ControllerPlayer::ControllerPlayer(std::shared_ptr<Observer> SFMLmanager): Controller(std::move(SFMLmanager)) {
+    model = std::make_shared<Entity>();
     notify(*this, Events::event::CreatePlayerView);
     model->getHitbox().setW(0.2);
     model->getHitbox().setH(0.25);

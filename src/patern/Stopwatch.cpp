@@ -4,12 +4,11 @@
 
 #include "Stopwatch.h"
 #include "Defines.h"
-#include <iostream>
 #include <chrono>
 #include <thread>
 
-std::chrono::steady_clock::time_point Global::Stopwatch:: previousStart;
-std::chrono::steady_clock::time_point Global::Stopwatch::startInterval;
+std::chrono::steady_clock::time_point Global::Stopwatch:: previousStart = std::chrono::steady_clock::now();
+std::chrono::steady_clock::time_point Global::Stopwatch::startInterval = std::chrono::steady_clock::now();
 
 int Global::Stopwatch::TICKS_PER_SECOND = 25;
 int Global::Stopwatch::SKIP_TICKS = 10000 / TICKS_PER_SECOND;;

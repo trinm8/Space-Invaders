@@ -3,6 +3,8 @@
 //
 
 #include "ControllerEnemy.h"
+
+#include <utility>
 #include "EntityEnemy.h"
 
 int ControllerEnemy::update(std::vector<std::shared_ptr<Controller>> &controller) {
@@ -48,7 +50,7 @@ int ControllerEnemy::update(std::vector<std::shared_ptr<Controller>> &controller
 }
 
 //we create a linked list of enemies and will parse through them to update each one of them
-ControllerEnemy::ControllerEnemy(int enemyCount, std::shared_ptr<Observer> SFMLmanager, int lives)
+ControllerEnemy::ControllerEnemy(int enemyCount, const std::shared_ptr<Observer>& SFMLmanager, int lives)
         : Controller(SFMLmanager) {
     direction = -1;
     timebetweenshots = 0;
@@ -199,9 +201,9 @@ int ControllerEnemy::onCollision(Controller &other) {
     return 0;
 }
 
-bool ControllerEnemy::enemyinfront(std::shared_ptr<EntityEnemy> toCheck) {
+bool ControllerEnemy::enemyinfront(const std::shared_ptr<EntityEnemy>& toCheck) {
     for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
-        if(abs(current->getX() - toCheck->getX()) < std::numeric_limits<double>::epsilon() && current != toCheck && current->getY() < toCheck->getY()){
+        if(std::abs(current->getX() - toCheck->getX()) < std::numeric_limits<double>::epsilon() && current != toCheck && current->getY() < toCheck->getY()){
             return true;}
     }
     return false;

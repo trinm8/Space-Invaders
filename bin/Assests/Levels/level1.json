@@ -1,9 +1,9 @@
 {
   "wavecount": 1,
-  "last": false,
+  "last": true,
   "enemy0": {
               "texture": "Enemy.png",
-              "enemycount": 20,
+              "enemycount": 1,
               "speed" : 0.00015,
               "lives": 1
             }

@@ -18,7 +18,7 @@ protected:
 
     bool expired;
 
-    int direction;
+    int direction{};
 
     std::shared_ptr<Entity> model;
 
@@ -28,7 +28,7 @@ public:
 
     Controller();
 
-    explicit Controller(std::shared_ptr<Observer> SFMLmanager);
+    explicit Controller(const std::shared_ptr<Observer>& SFMLmanager);
 
     virtual int update(std::vector<std::shared_ptr<Controller>>& controller) = 0;
 
@@ -60,7 +60,7 @@ public:
 
     virtual int onCollision(Controller& other) = 0;
 
-    virtual ~Controller() = default;
+    virtual ~Controller();
 
     bool hasObserver();
 

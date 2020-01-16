@@ -26,7 +26,7 @@ int WorldController::onCollision(Controller &other) {
 }
 
 
-int WorldController::initLevel(std::vector<std::shared_ptr<Controller>> &controllers, std::shared_ptr<Observer> SFMLmanager, int levelnr) {
+int WorldController::initLevel(std::vector<std::shared_ptr<Controller>> &controllers, const std::shared_ptr<Observer>& SFMLmanager, int levelnr) {
     std::ifstream levelfile;
     nlohmann::json jsonparser;
     this->levelnr = levelnr;

@@ -24,9 +24,7 @@ class SFMLmanager: public Observer {
 
 public:
 
-    SFMLmanager() = default;
-
-    SFMLmanager(std::shared_ptr<sf::RenderWindow> window);
+    explicit SFMLmanager(std::shared_ptr<sf::RenderWindow> window);
 
     int placeholder();
 
@@ -34,9 +32,11 @@ public:
 
     int draw();
 
-    void onNotify(Controller& controller , Events::event event);
+    void onNotify(Controller& controller , Events::event event) override;
 
-    void gameover(std::string message);
+    void gameover(const std::string& message);
+
+    void clearAll();
 
 };
 

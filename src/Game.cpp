@@ -4,8 +4,6 @@
 
 #include "Game.h"
 #include <SFML/Graphics.hpp>
-#include "ControllerPlayer.h"
-#include "InputHandler.h"
 #include "Defines.h"
 #include "Stopwatch.h"
 
@@ -95,12 +93,15 @@ int Game::update() {
     fixNewEntities();
     collisionChecks();
     expiredRemove();
+    if(currentLevel->LevelComplete()){
+        if(loadnextlevel() == 1){
+            controllers.clear();
+            return 0;
+        }
+    }
     if(currentLevel->gameOver()){
         controllers.clear();
         graphicsmanager->gameover("GAME OVER , EARTH IS KILL , NO");
-    }
-    if(currentLevel->LevelComplete()){
-        if(loadnextlevel() == 1) return 1;
     }
     return 0;
 }
@@ -147,6 +148,7 @@ int Game::loadnextlevel() {
     expiredRemove();
     if(currentLevel->isLast()) {
         graphicsmanager->gameover("YOU WIN");
+        graphicsmanager->clearAll();
         return 1;
     }
     currentLevel = std::make_unique<WorldController>(graphicsmanager);
