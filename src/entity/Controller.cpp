@@ -91,14 +91,14 @@ int Controller::takeDamage(int value) {
 }
 
 int Controller::moveVertical() {
-    float newY = model->getY() + (model->getSpeedY()*(float)model->getDirectionY() * Global::Stopwatch::getDeltaTime());
+    float newY = model->getY() + (model->getSpeedY()*(float)model->getDirectionY() /* Global::Stopwatch::getDeltaTime()*/);
     if(model->isScreenlocked() && isOffScreen(model->getX(), newY)) return 0;
     model->setY(newY);
     return 0;
 }
 
 int Controller::moveHorizontal() {
-    float newX = model->getX() + (model->getSpeedX() * (float)model->getDirectionX() * Global::Stopwatch::getDeltaTime());
+    float newX = model->getX() + (model->getSpeedX() * (float)model->getDirectionX() /* Global::Stopwatch::getDeltaTime()*/);
     if(model->isScreenlocked() && isOffScreen(newX, model->getY())) return 0;
     model->setX(newX);
     return 0;

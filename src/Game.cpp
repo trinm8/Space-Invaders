@@ -48,18 +48,18 @@ int Game::run()
 
         //std::cout << "start" << std::endl;
 
-        //while(Global::Stopwatch::isLaggingBehind()) {
+        while(Global::Stopwatch::isLaggingBehind()) {
 
             update();
 
-            //Global::Stopwatch::updateLag();
+            Global::Stopwatch::updateLag();
 
             //std::cout << "loop" << std::endl;
-        //}
+        }
 
         //std::cout << "stop" << std::endl;
 
-        //Global::Stopwatch::calculateDelta();
+        Global::Stopwatch::calculateDelta();
 
         //std::cout << graphicsmanager.use_count() << std::endl;
 
@@ -71,7 +71,7 @@ int Game::run()
 
         //Global::Stopwatch::sleep();
 
-        Global::Stopwatch::startGame();
+        //Global::Stopwatch::startGame();
 
         //std::this_thread::sleep_for(start + std::chrono::milliseconds (MS_PER_UPDATE) - std::chrono::system_clock::now());
     }

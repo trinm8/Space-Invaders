@@ -57,8 +57,8 @@ ControllerEnemy::ControllerEnemy(int enemyCount, std::shared_ptr<Observer> SFMLm
     model->setHitbox(Hitbox(0.2, 0.25));
     model->setDeadly(false);
     model->setLives(lives);
-    model->setSpeedX(0.00015f);
-    model->setSpeedY(0.05f);
+    model->setSpeedX(0.001f);
+    model->setSpeedY(0.0f);
     model->setDirectionY(-1);
     model->setScreenlocked(true);
     model->setFireCooldown(0);
@@ -69,8 +69,8 @@ ControllerEnemy::ControllerEnemy(int enemyCount, std::shared_ptr<Observer> SFMLm
         created->setHitbox(Hitbox(0.2, 0.25));
         created->setDeadly(false);
         created->setLives(lives);
-        created->setSpeedX(0.00015f);
-        created->setSpeedY(0.05f);
+        created->setSpeedX(0.001f);
+        created->setSpeedY(0.0f);
         created->setDirectionY(-1);
         created->setScreenlocked(true);
         created->setFireCooldown(0);
@@ -119,7 +119,7 @@ bool ControllerEnemy::reachedEdge() {
 
 void ControllerEnemy::lowerLevel() {
     for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
-        current->setY(current->getY()-current->getSpeedY());
+        current->setY(current->getY()- 0.05f);
     }
 }
 
