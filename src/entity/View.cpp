@@ -15,7 +15,7 @@ View::View(std::shared_ptr<sf::Texture> texture, std::shared_ptr<sf::Sprite> spr
     this->sprite->setTexture(*this->texture);
     this->sprite->setScale(Global::Transformation::scaleX(screensizeX), Global::Transformation::scaleY(screensizeY));
     //this->sprite->setScale(Global::Transformation::scaleX(screensizeX) * model->getHitbox().getW(), Global::Transformation::scaleY(screensizeY) * model->getHitbox().getH());
-    this->sprite->setOrigin( this->sprite->getTexture()->getSize().x * 0.5,this->sprite->getTexture()->getSize().y * 0.5);
+    this->sprite->setOrigin( this->sprite->getTexture()->getSize().x * 0.5f,this->sprite->getTexture()->getSize().y * 0.5f);
 
 }
 

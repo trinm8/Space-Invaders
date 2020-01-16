@@ -3,7 +3,6 @@
 //
 
 #include "SFMLmanager.h"
-
 #include <utility>
 #include "ViewPlayer.h"
 #include "Controller.h"
