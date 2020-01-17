@@ -66,6 +66,8 @@ public:
 
         int getLives() const;
 
+        virtual void setLives(int lives);
+
         virtual void setTextureLocation(const std::string& location);
 };
 

@@ -1,10 +1,12 @@
 {
-  "wavecount": 1,
   "last": false,
-  "enemy0": {
+  "player": {
+    "texture": "danny.png",
+    "lives": 3
+  },
+  "enemy": {
     "texture": "Enemy.png",
-    "enemycount": 2,
-    "speed" : 0.00015,
+    "enemycount": 20,
     "lives": 1
   }
 }

@@ -242,3 +242,9 @@ void ControllerEnemy::setTextureLocation(const std::string& location)
                 current->setTextureLocation(location);
         }
 }
+
+void ControllerEnemy::setLives(int lives) {
+        for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
+                current->setLives(lives);
+        }
+}

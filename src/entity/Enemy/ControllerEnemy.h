@@ -40,6 +40,8 @@ public:
         float getlowestY();
 
     void setTextureLocation(const std::string &location) override;
+
+    void setLives(int lives) override;
 };
 
 #endif // SMFL_TEST_CONTROLLERENEMY_H

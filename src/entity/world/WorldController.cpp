@@ -28,7 +28,7 @@ int WorldController::initLevel(std::vector<std::shared_ptr<Controller>>& control
         std::string location;
         location = jsonparser["enemy"]["texture"];
         int enemycount;
-        int lives;
+        int lives = 1;
         try {
                 enemycount = jsonparser["enemy"]["enemycount"];
                 lives = jsonparser["enemy"]["lives"];
@@ -64,7 +64,7 @@ int WorldController::initLevel(std::vector<std::shared_ptr<Controller>>& control
         }
 
         currentEnemies = std::make_shared<ControllerEnemy>(enemycount, SFMLmanager, "Assests/" + location);
-        currentEnemies->getModel()->setLives(lives);
+        currentEnemies->setLives(lives);
 
         location = jsonparser["player"]["texture"];
         lives = 1;
@@ -79,7 +79,7 @@ int WorldController::initLevel(std::vector<std::shared_ptr<Controller>>& control
                         std::cerr << "Lives cant be empty/negative, changing to 3" << std::endl;
                 }
         }
-        currentPlayer->getModel()->setLives(lives);
+        currentPlayer->setLives(lives);
 
         controllers.push_back(currentPlayer);
         controllers.push_back(currentEnemies);

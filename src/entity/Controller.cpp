@@ -119,3 +119,7 @@ Controller::Controller()
 void Controller::setTextureLocation(const std::string& location) {
     model->setTextureLocation(location);
 }
+
+void Controller::setLives(int lives) {
+        model->setLives(lives);
+}

@@ -22,7 +22,10 @@ include_directories(${SFML_INCLUDE_DIR})
 
 endif(WIN32)
 
+
+
 if(UNIX)
+    set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/LinuxBin)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules/")
 FIND_PACKAGE(SFML 2 COMPONENTS system window graphics audio)
 
@@ -40,5 +43,5 @@ INSTALL(TARGETS SpaceInvaders DESTINATION ${PROJECT_SOURCE_DIR}/LinuxBin)
 endif(UNIX)
 
 if(WIN32)
-#install(TARGETS test DESTINATION ${PROJECT_SOURCE_DIR}/bin)
+install(TARGETS test DESTINATION ${PROJECT_SOURCE_DIR}/bin)
 endif(WIN32)
