@@ -9,7 +9,11 @@
 
 class EntityEnemy : public Entity
 {
-
+        /*! \class EntityEnemy
+         *  This is the data class for the INDIVIDUAL enemies, not the whole block of enemies like the ControllerEnemy
+         * is. the major difference between this and the Entity class is that we have a nextEnemy pointer that tells the
+         * enemy of its neighbor.
+         */
         std::shared_ptr<EntityEnemy> nextEnemy;
 
 public:

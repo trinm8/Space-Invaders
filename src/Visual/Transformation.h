@@ -9,7 +9,10 @@ namespace Global {
 
 class Transformation
 {
-
+        /*! \class Transformation
+         *  The transformation class is a singleton class that acts as a converter between in logic and visual
+         * coordinates.
+         */
         static int screensizeX, screensizeY;
         static float maxLogicX, maxLogicY;
 

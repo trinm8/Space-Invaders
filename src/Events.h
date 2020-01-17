@@ -5,10 +5,10 @@
 #ifndef SMFL_TEST_EVENTS_H
 #define SMFL_TEST_EVENTS_H
 
-// TODO: mss een efficientere oplossing?
-
 namespace Events {
-
+/*! \enum event
+ *  The event enum consists of a list of possible events that need to be communicated to the SFMLmanager
+ */
 enum event
 {
         createView,
@@ -17,5 +17,5 @@ enum event
         updatePlayerHealth
 };
 
-}
+} // namespace Events
 #endif // SMFL_TEST_EVENTS_H

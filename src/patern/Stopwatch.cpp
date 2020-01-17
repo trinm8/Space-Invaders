@@ -9,7 +9,6 @@
 std::chrono::steady_clock::time_point Global::Stopwatch::previousStart = std::chrono::steady_clock::now();
 std::chrono::steady_clock::time_point Global::Stopwatch::startInterval = std::chrono::steady_clock::now();
 
-int Global::Stopwatch::maxSkip = 5;
 int Global::Stopwatch::loops;
 float Global::Stopwatch::deltatime;
 double Global::Stopwatch::lag;
@@ -24,7 +23,7 @@ void Global::Stopwatch::startClock()
         loops = 0;
 }
 
-bool Global::Stopwatch::isLaggingBehind() { return lag >= MS_PER_UPDATE && loops < maxSkip; }
+bool Global::Stopwatch::isLaggingBehind() { return lag >= MS_PER_UPDATE && loops < 10; }
 
 void Global::Stopwatch::updateLag()
 {

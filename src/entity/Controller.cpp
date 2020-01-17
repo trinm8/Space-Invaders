@@ -81,7 +81,7 @@ int Controller::takeDamage(int value)
 int Controller::moveVertical()
 {
         float newY =
-            model->getY() + (model->getSpeedY() * (float)model->getDirectionY() /* Global::Stopwatch::getDeltaTime()*/);
+            model->getY() + (model->getSpeedY() * (float)model->getDirectionY());
         if (model->isScreenlocked() && isOffScreen(model->getX(), newY))
                 return 0;
         model->setY(newY);
@@ -91,7 +91,7 @@ int Controller::moveVertical()
 int Controller::moveHorizontal()
 {
         float newX =
-            model->getX() + (model->getSpeedX() * (float)model->getDirectionX() /* Global::Stopwatch::getDeltaTime()*/);
+            model->getX() + (model->getSpeedX() * (float)model->getDirectionX());
         if (model->isScreenlocked() && isOffScreen(newX, model->getY()))
                 return 0;
         model->setX(newX);
@@ -114,10 +114,6 @@ Controller::Controller()
 {
         expired = false;
         needsObserver = true;
-}
-
-void Controller::setTextureLocation(const std::string& location) {
-    model->setTextureLocation(location);
 }
 
 void Controller::setLives(int lives) {

@@ -19,7 +19,7 @@ ControllerPlayer::ControllerPlayer(const std::shared_ptr<Observer>& SFMLmanager,
         model->setDirectionY(1);
         model->setSpeedX(0.003f);
         model->setScreenlocked(true);
-        notify(*this, Events::event::updatePlayerHealth);
+        notify(*this, Events::event::updatePlayerHealth); //makes it so the player health is initialzed
 }
 
 int ControllerPlayer::update(std::vector<std::shared_ptr<Controller>>& controller)

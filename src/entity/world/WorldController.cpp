@@ -17,18 +17,18 @@ int WorldController::update(std::vector<std::shared_ptr<Controller>>& controller
 int WorldController::onCollision(Controller& other) { return 0; }
 
 int WorldController::initLevel(std::vector<std::shared_ptr<Controller>>& controllers,
-                               const std::shared_ptr<Observer>& SFMLmanager, int levelnr)
+                               const std::shared_ptr<Observer>& SFMLmanager, int expectedLevelNr)
 {
         std::ifstream levelfile;
         nlohmann::json jsonparser;
-        this->levelnr = levelnr;
+        levelnr = expectedLevelNr;
         levelfile.open("Assests/Levels/level" + std::to_string(levelnr) + ".json");
         levelfile >> jsonparser;
-        this->last = jsonparser["last"];
+        last = jsonparser["last"];
         std::string location;
         location = jsonparser["enemy"]["texture"];
         int enemycount;
-        int lives = 1;
+        int lives;
         try {
                 enemycount = jsonparser["enemy"]["enemycount"];
                 lives = jsonparser["enemy"]["lives"];
@@ -67,7 +67,6 @@ int WorldController::initLevel(std::vector<std::shared_ptr<Controller>>& control
         currentEnemies->setLives(lives);
 
         location = jsonparser["player"]["texture"];
-        lives = 1;
         currentPlayer = std::make_shared<ControllerPlayer>(SFMLmanager, "Assests/" + location);
         try {
                 lives = jsonparser["player"]["lives"];
@@ -102,11 +101,13 @@ bool WorldController::isLast() const { return last; }
 int WorldController::close()
 {
         currentPlayer->makeExpired();
+        currentEnemies->makeExpired();
         return 0;
 }
 
 bool WorldController::gameOver()
 {
         return (currentPlayer->getLives() == 0 ||
-                currentEnemies->getlowestY() <= currentPlayer->getHitboxLeftCorner().second);
+                currentEnemies->getlowestY() <=
+                    currentPlayer->getHitboxLeftCorner().second); // if enemies reached the player
 }

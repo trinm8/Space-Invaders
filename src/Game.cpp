@@ -19,9 +19,11 @@ int Game::run()
 
         Global::Stopwatch::startGame();
 
+        // we keep the game running as long as the window is opened
         while (window->isOpen()) {
                 Global::Stopwatch::startClock();
 
+                // SFML keeps track if there are any changes to the window it self
                 sf::Event event{};
                 while (window->pollEvent(event)) {
                         if (event.type == sf::Event::Closed) {
@@ -29,6 +31,8 @@ int Game::run()
                         }
                 }
 
+                // we ask the stopwatch if we are lagging behind on our wanted ticks, if so we keep looping until the
+                // lag is gone
                 while (Global::Stopwatch::isLaggingBehind()) {
 
                         update();
@@ -36,6 +40,8 @@ int Game::run()
                         Global::Stopwatch::updateLag();
                 }
 
+                // we calculate how long it took for the update phase so we now how much interpolation in the graphics
+                // need to be done
                 Global::Stopwatch::calculateDelta();
 
                 render();
@@ -53,22 +59,27 @@ int Game::initGame()
 
 int Game::update()
 {
+        // we tell every controller to update itself, we give the controllers acces to the list of the controllers so
+        // they can add new game objects of their own (bullets for example). Because we can add new entities in the
+        // vector we dont use a range loop.
         for (int i = 0; i < controllers.size(); i++) {
                 controllers[i]->update(controllers);
         }
-        currentLevel->update(controllers);
+        currentLevel->update(controllers);   // we tell the level to update itself
         fixNewEntities();
         collisionChecks();
         expiredRemove();
         if (currentLevel->LevelComplete()) {
-                if (loadnextlevel() == 1) {
+                if (loadnextlevel() == 1) { // return 1 = Victory
+                        graphicsmanager->gameover("YOU WIN");
+                        graphicsmanager->clearAll();
                         controllers.clear();
                         return 0;
                 }
         }
         if (currentLevel->gameOver()) {
                 controllers.clear();
-                graphicsmanager->gameover("GAME OVER , EARTH IS KILL , NO");
+                graphicsmanager->gameover("GAME OVER");
         }
         return 0;
 }
@@ -113,8 +124,6 @@ int Game::loadnextlevel()
         currentLevel->close();
         expiredRemove();
         if (currentLevel->isLast()) {
-                graphicsmanager->gameover("YOU WIN");
-                graphicsmanager->clearAll();
                 return 1;
         }
         currentLevel = std::make_unique<WorldController>(graphicsmanager);

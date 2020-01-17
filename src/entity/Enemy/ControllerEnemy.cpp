@@ -135,12 +135,12 @@ bool ControllerEnemy::collides(class Controller& otherController)
                 std::pair<float, float> cornerR1 = getHitboxRightCorner();
                 std::pair<float, float> cornerR2 = otherController.getHitboxRightCorner();
 
+                //if squares are next to or above/under each other
                 if ((cornerL1.first > cornerR2.first || cornerL2.first > cornerR1.first) ||
                     (cornerR1.second > cornerL2.second || cornerL1.second < cornerR2.second)) {
                         continue;
                 }
 
-                // std::cout << "hit" << std::endl;
                 return true;
         }
         model = start;
@@ -151,13 +151,13 @@ void ControllerEnemy::removeEnemy()
 {
         std::shared_ptr<EntityEnemy> current = start;
         std::shared_ptr<EntityEnemy> wanted = std::static_pointer_cast<EntityEnemy>(model);
-        if (getEnemysize() == 1) {
+        if (getEnemysize() == 1) { //if we have to delete the last enemy, consider the controller expired
                 model = nullptr;
                 start = nullptr;
                 expired = true;
                 return;
         }
-        if (current.get() == wanted.get()) {
+        if (current.get() == wanted.get()) { //to be removed == first element
                 current = current->getNextEnemy();
                 wanted->setNextEnemy(nullptr);
                 model = current;
@@ -168,7 +168,7 @@ void ControllerEnemy::removeEnemy()
                 current = current->getNextEnemy();
         }
 
-        if (wanted->getNextEnemy() != nullptr) {
+        if (wanted->getNextEnemy() != nullptr) { // if to be removed == last element
                 current->setNextEnemy(wanted->getNextEnemy());
                 wanted->setNextEnemy(nullptr);
         } else {
@@ -234,13 +234,6 @@ float ControllerEnemy::getlowestY()
                 }
         }
         return minY;
-}
-
-void ControllerEnemy::setTextureLocation(const std::string& location)
-{
-        for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
-                current->setTextureLocation(location);
-        }
 }
 
 void ControllerEnemy::setLives(int lives) {

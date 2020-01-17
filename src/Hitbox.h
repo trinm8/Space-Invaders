@@ -7,6 +7,13 @@
 
 class Hitbox
 {
+
+        /*! \class Hitbox
+         *  The Hitbox class will act as an object with only an width and height, these can be used to give an entity a
+         * size next to the actual position of the sprite. This class acts as an extra model with only getters and
+         * setters.
+         */
+
         float w, h;
 
 public:

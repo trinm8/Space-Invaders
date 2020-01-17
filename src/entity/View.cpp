@@ -22,6 +22,11 @@ View::View(std::shared_ptr<sf::Texture> texture, std::shared_ptr<sf::Sprite> spr
                                 this->sprite->getTexture()->getSize().y * 0.5f);
 }
 
+/*
+ * We ude the Transformation singleton to transform the logic cooridinates to the screen coordinates. We also add the
+ * speed times deltatime to see if the sprite needs to move a bit further because the main gameloop might be lagging
+ * behind. Deltatime = lag/MS_PER_UPDATE.
+ * */
 int View::update(const std::shared_ptr<sf::RenderWindow>& window)
 {
         sprite->setPosition(Global::Transformation::transformationX(

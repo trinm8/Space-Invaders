@@ -9,6 +9,7 @@ ControllerBullet::ControllerBullet(float posX, float posY, int direction)
         model = std::make_shared<Entity>();
         model->setHitbox(Hitbox(0.02, 0.1));
         model->setX(posX);
+        // we have to make sure the bullet doesnt spawn in the object that shot it
         model->setY(posY + (model->getHitbox().getH() / 2) * (float)direction);
         model->setLives(1);
         model->setDeadly(true);

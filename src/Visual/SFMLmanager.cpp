@@ -20,7 +20,7 @@ SFMLmanager::SFMLmanager(std::shared_ptr<sf::RenderWindow> window)
         health.setFillColor(sf::Color::White);
         playerLife = std::make_shared<sf::Text>(health);
         texts.push_back(playerLife);
-        once = false;
+        gameOver = false;
 }
 
 int SFMLmanager::draw()
@@ -43,6 +43,7 @@ int SFMLmanager::draw()
 
 void SFMLmanager::onNotify(Controller& controller, Events::event event)
 {
+        // TODO: next release, put events in a buffer so they are handled at updated
         if (event == Events::event::win) {
                 gameover("YOU WIN");
                 return;
@@ -59,43 +60,18 @@ void SFMLmanager::onNotify(Controller& controller, Events::event event)
                         }
                 }
         }
-
-        if(event == Events::createView){
-            sf::Texture texture;
-            std::string location = controller.getModel()->getTextureLocation();
-            if (!texture.loadFromFile(location)) {
-                throw std::runtime_error("Texture " + location + " not found");
-            }
-            texture.setSmooth(true);
-            std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
-            views.push_back(std::make_shared<View>(std::make_shared<sf::Texture>(texture), sprite, controller.getModel(),
-                                                   window->getSize().x, window->getSize().y));
-        }
-
-
-        /*switch (event) {
-        case Events::event::createPlayerView: {
-
-
-
-                break;
-        }
-        case Events::event::createBulletView: {
+        if (event == Events::createView) {
+                sf::Texture texture;
+                std::string location = controller.getModel()->getTextureLocation();
                 if (!texture.loadFromFile(location)) {
-                    throw std::runtime_error("Texture " + location + " not found");
+                        throw std::runtime_error("Texture " + location + " not found");
                 }
-
-                break;
+                texture.setSmooth(true);
+                std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
+                views.push_back(std::make_shared<View>(std::make_shared<sf::Texture>(texture), sprite,
+                                                       controller.getModel(), window->getSize().x,
+                                                       window->getSize().y));
         }
-        case Events::event::createEnemyView: {
-                if (!texture.loadFromFile(location)) {
-                        return;
-                }
-        }
-        default: {
-        }
-        }*/
-
 }
 
 void SFMLmanager::clearAll() { views.clear(); }
@@ -103,7 +79,7 @@ void SFMLmanager::clearAll() { views.clear(); }
 void SFMLmanager::gameover(const std::string& message)
 {
 
-        if (once)
+        if (gameOver)
                 return;
 
         sf::Text text;
@@ -114,5 +90,5 @@ void SFMLmanager::gameover(const std::string& message)
         text.setFillColor(sf::Color::White);
         texts.clear();
         texts.push_back(std::make_shared<sf::Text>(std::move(text)));
-        once = true;
+        gameOver = true;
 }
