@@ -8,9 +8,18 @@
 #include <random>
 #include <utility>
 
+/*
+ * We Loop reset the current model to the start of the list and add time to the time between when the last shot has been
+ * fired.
+ * We then look if the enemy that is closest to the edge is actually going to hit it or not, if so we move a level down
+ * and change the direction of the enemy movement.
+ * Next we loop over all the enemies and move them to their new position and see if we need to reduce their firecooldown
+ * the value we pass is to change how quickly we want it to go down.
+ * After that we see if we are allowed to shoot again. if so we get all the enemies who's timer is low enough to shoot
+ * and dont have any enemies infront of them.
+ */
 int ControllerEnemy::update(std::vector<std::shared_ptr<Controller>>& controller)
 {
-
         model = start;
         timebetweenshots++;
 
@@ -26,14 +35,6 @@ int ControllerEnemy::update(std::vector<std::shared_ptr<Controller>>& controller
                 if (model->getFireCooldown() > 0) {
                         model->FireCooldownTick(1);
                 }
-
-                // float newX = current->getX() + (0.01f * (float)direction);
-                // current->setX(newX);
-                /*        if(isOffScreen(newX, current->getY())){
-
-                } else{
-
-                }*/
         }
 
         if (timebetweenshots >= 300) {
@@ -53,9 +54,13 @@ int ControllerEnemy::update(std::vector<std::shared_ptr<Controller>>& controller
         return 0;
 }
 
-// we create a linked list of enemies and will parse through them to update each one of them
-ControllerEnemy::ControllerEnemy(int enemyCount, const std::shared_ptr<Observer> &SFMLmanager,
-                                 const std::string &textureLocation)
+/*
+ * We create a new chain of enemies. We create a chain by constantly updating the model pointer to the newest entity and
+ * then linking then making a new Entity by making it's nextEnemy pointer point at the pointer.
+ * After the chain has been created we then loop through and update all the standard values.
+ */
+ControllerEnemy::ControllerEnemy(int enemyCount, const std::shared_ptr<Observer>& SFMLmanager,
+                                 const std::string& textureLocation)
     : Controller(SFMLmanager)
 {
         direction = -1;
@@ -85,7 +90,7 @@ ControllerEnemy::ControllerEnemy(int enemyCount, const std::shared_ptr<Observer>
         }
 
         int counter = 0;
-        float ypos = -0.3f;
+        float ypos = -0.45f;
         float xpos = 3.5f;
         for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
                 current->setX(xpos);
@@ -100,6 +105,11 @@ ControllerEnemy::ControllerEnemy(int enemyCount, const std::shared_ptr<Observer>
         }
 }
 
+/*
+ * we keep track of the max/min X position by looping through the current chain and seeing which is closest to the
+ * edge by constanly comparing it to the current maxX if its closer to the edge the enemies are traveling to we will
+ * store this new value.
+ */
 bool ControllerEnemy::reachedEdge()
 {
         float maxX = start->getX();
@@ -117,6 +127,9 @@ bool ControllerEnemy::reachedEdge()
         return isOffScreen(maxX + (0.01f * (float)direction), -1.5f);
 }
 
+/*
+ * We loop through the list and lower every enemy to the next y value
+ */
 void ControllerEnemy::lowerLevel()
 {
         for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
@@ -124,6 +137,9 @@ void ControllerEnemy::lowerLevel()
         }
 }
 
+/*
+ * We loop through the list of enemies and check each hitbox with the hitbox of the other controller.
+ */
 bool ControllerEnemy::collides(class Controller& otherController)
 {
         for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
@@ -135,7 +151,7 @@ bool ControllerEnemy::collides(class Controller& otherController)
                 std::pair<float, float> cornerR1 = getHitboxRightCorner();
                 std::pair<float, float> cornerR2 = otherController.getHitboxRightCorner();
 
-                //if squares are next to or above/under each other
+                // if squares are next to or above/under each other
                 if ((cornerL1.first > cornerR2.first || cornerL2.first > cornerR1.first) ||
                     (cornerR1.second > cornerL2.second || cornerL1.second < cornerR2.second)) {
                         continue;
@@ -147,17 +163,23 @@ bool ControllerEnemy::collides(class Controller& otherController)
         return false;
 }
 
+/*
+ * We loop through the list and check for the enemy that has to be deleted.
+ * if we find it we then rearange the pointers of the enemies before and after it to make it so we can safely remove
+ * the enemy without breaking the chain.
+ * Special cases are commented in code itself.
+ */
 void ControllerEnemy::removeEnemy()
 {
         std::shared_ptr<EntityEnemy> current = start;
         std::shared_ptr<EntityEnemy> wanted = std::static_pointer_cast<EntityEnemy>(model);
-        if (getEnemysize() == 1) { //if we have to delete the last enemy, consider the controller expired
+        if (getEnemysize() == 1) { // if we have to delete the last enemy, consider the controller expired
                 model = nullptr;
                 start = nullptr;
                 expired = true;
                 return;
         }
-        if (current.get() == wanted.get()) { //to be removed == first element
+        if (current.get() == wanted.get()) { // to be removed == first element
                 current = current->getNextEnemy();
                 wanted->setNextEnemy(nullptr);
                 model = current;
@@ -189,6 +211,10 @@ int ControllerEnemy::getEnemysize()
         return counter;
 }
 
+/*
+ * We resolve the collision on the enemy the model pointer is currently pointing at. If it runs out of lives we
+ * tell the graphics and remove the enemy from the list.
+ */
 int ControllerEnemy::onCollision(Controller& other)
 {
         if (other.isDeadly()) {
@@ -196,13 +222,17 @@ int ControllerEnemy::onCollision(Controller& other)
                 if (model->getLives() < 1) {
                         notify(*this, Events::event::expired);
                         removeEnemy();
-                        // model = start;
                         return 0;
                 }
         }
         return 0;
 }
 
+/*
+ * To see if there is an enemy infront of the given enemy we have to loop through the chain and check if there is a
+ * enemy with a lower y-position but the same x-position. The reason we dont use the "==" operator is because we store
+ * position in floats, this leads to small errors because of rounding so we have to check using the epsilon.
+ */
 bool ControllerEnemy::enemyinfront(const std::shared_ptr<EntityEnemy>& toCheck)
 {
         for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
@@ -214,6 +244,10 @@ bool ControllerEnemy::enemyinfront(const std::shared_ptr<EntityEnemy>& toCheck)
         return false;
 }
 
+/*
+ * We check if there are enemies whos fireCooldown is 0 and have no other enemies infront of them. if this is the case
+ * we add them to a ready vector and return them.
+ */
 std::vector<std::shared_ptr<EntityEnemy>> ControllerEnemy::getShootReadyEnemies()
 {
         std::vector<std::shared_ptr<EntityEnemy>> ready;
@@ -225,6 +259,9 @@ std::vector<std::shared_ptr<EntityEnemy>> ControllerEnemy::getShootReadyEnemies(
         return ready;
 }
 
+/*
+ * We find the enemy with the lowest posY value
+ */
 float ControllerEnemy::getlowestY()
 {
         float minY = 0;
@@ -236,7 +273,8 @@ float ControllerEnemy::getlowestY()
         return minY;
 }
 
-void ControllerEnemy::setLives(int lives) {
+void ControllerEnemy::setLives(int lives)
+{
         for (std::shared_ptr<EntityEnemy> current = start; current != nullptr; current = current->getNextEnemy()) {
                 current->setLives(lives);
         }

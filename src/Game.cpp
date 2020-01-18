@@ -52,20 +52,29 @@ int Game::run()
 
 int Game::initGame()
 {
-        currentLevel = std::make_unique<WorldController>(graphicsmanager);
+        currentLevel = std::make_unique<LevelController>(graphicsmanager);
         currentLevel->initLevel(controllers, graphicsmanager, 1);
         return 0;
 }
 
+/*
+ * we tell every controller to update itself, we give the controllers acces to the list of the controllers so
+ * they can add new game objects of their own (bullets for example). Because we can add new entities in the
+ * vector we dont use a range loop.
+ * we then check for new entities that have been created by the controllers that are in game. this is so that
+ * the SFMLmanager can be added as an observer because the controllers dont have access to it themselves.
+ * we the check if there is a collision between enemies.
+ * The expired controllers are then removed from the game.
+ * Check if its needed to load a new level.
+ * check if the game has ended. if so we remove all the controllers and tell the graphics manager to display the
+ * victory message.
+ */
 int Game::update()
 {
-        // we tell every controller to update itself, we give the controllers acces to the list of the controllers so
-        // they can add new game objects of their own (bullets for example). Because we can add new entities in the
-        // vector we dont use a range loop.
         for (int i = 0; i < controllers.size(); i++) {
                 controllers[i]->update(controllers);
         }
-        currentLevel->update(controllers);   // we tell the level to update itself
+        currentLevel->update(controllers); // we tell the level to update itself
         fixNewEntities();
         collisionChecks();
         expiredRemove();
@@ -84,6 +93,12 @@ int Game::update()
         return 0;
 }
 
+/*
+ * itterate over all the controllers to see if 2 are colliding.
+ * we ask each controller if it is colliding with another one, we use 2 for loops but we always start the second one
+ * where the first one begins so that we dont compare 2 that have already been compared. if there has been a collision
+ * we notify both of the controllers.
+ */
 int Game::collisionChecks()
 {
         for (int i = 0; i < controllers.size(); ++i) {
@@ -126,7 +141,7 @@ int Game::loadnextlevel()
         if (currentLevel->isLast()) {
                 return 1;
         }
-        currentLevel = std::make_unique<WorldController>(graphicsmanager);
+        currentLevel = std::make_unique<LevelController>(graphicsmanager);
         currentLevel->initLevel(controllers, graphicsmanager, nextLevel);
         return 0;
 }

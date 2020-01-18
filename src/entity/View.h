@@ -19,7 +19,7 @@ class View
         /*! \class View
          *  The view class represents an Entity from as sprite on screen. It only has access to the model of the entity
          *  and neither the model nor the controller have a connect to the view class. The view class is told to update
-         *  by the SFMLmanager.
+         *  by the SFMLmanager. It is not allowed to change the model in any way.
          */
         std::shared_ptr<sf::Texture> texture;
         std::shared_ptr<sf::Sprite> sprite;

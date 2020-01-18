@@ -7,7 +7,7 @@
 
 #include "Controller.h"
 #include "SFMLmanager.h"
-#include "WorldController.h"
+#include "LevelController.h"
 #include <iostream>
 
 class Game
@@ -20,7 +20,7 @@ class Game
          *  these are, it only updates them and makes interaction between them possible.
          */
 
-        std::shared_ptr<WorldController> currentLevel;
+        std::shared_ptr<LevelController> currentLevel;
         std::shared_ptr<SFMLmanager> graphicsmanager;
         std::vector<std::shared_ptr<Controller>> controllers; //!< the vector with all the controllers that are in game
 

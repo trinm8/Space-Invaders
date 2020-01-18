@@ -2,11 +2,14 @@
 // Created by timsa on 04-Dec-19.
 //
 
-#include "WorldController.h"
+#include "LevelController.h"
 #include "json.hpp"
 #include <fstream>
 
-int WorldController::update(std::vector<std::shared_ptr<Controller>>& controller)
+/*
+ * we check if the currentenemies are still valid and havent died yet. if so we remove the pointer.
+ */
+int LevelController::update(std::vector<std::shared_ptr<Controller>>& controller)
 {
         if (currentEnemies != nullptr && currentEnemies->isExpired()) {
                 currentEnemies = nullptr;
@@ -14,15 +17,21 @@ int WorldController::update(std::vector<std::shared_ptr<Controller>>& controller
         return 0;
 }
 
-int WorldController::onCollision(Controller& other) { return 0; }
+int LevelController::onCollision(Controller& other) { return 0; }
 
-int WorldController::initLevel(std::vector<std::shared_ptr<Controller>>& controllers,
+/*
+ * we read the json file for the next level, if the values dont match we try to set them to default values.
+ */
+int LevelController::initLevel(std::vector<std::shared_ptr<Controller>>& controllers,
                                const std::shared_ptr<Observer>& SFMLmanager, int expectedLevelNr)
 {
         std::ifstream levelfile;
         nlohmann::json jsonparser;
         levelnr = expectedLevelNr;
         levelfile.open("Assests/Levels/level" + std::to_string(levelnr) + ".json");
+        if(!levelfile.good()){
+            throw std::runtime_error("No next level found, either there is one missing or last level hasnt been marked");
+        }
         levelfile >> jsonparser;
         last = jsonparser["last"];
         std::string location;
@@ -86,26 +95,28 @@ int WorldController::initLevel(std::vector<std::shared_ptr<Controller>>& control
         return 0;
 }
 
-bool WorldController::LevelComplete() { return currentEnemies == nullptr; }
+bool LevelController::LevelComplete() { return currentEnemies == nullptr; }
 
-WorldController::WorldController(const std::shared_ptr<Observer>& sfmLmanager) : Controller(sfmLmanager)
+LevelController::LevelController(const std::shared_ptr<Observer>& sfmLmanager) : Controller(sfmLmanager)
 {
         last = false;
         levelnr = 0;
 }
 
-int WorldController::getLevelnr() const { return levelnr; }
+int LevelController::getLevelnr() const { return levelnr; }
 
-bool WorldController::isLast() const { return last; }
+bool LevelController::isLast() const { return last; }
 
-int WorldController::close()
+int LevelController::close()
 {
         currentPlayer->makeExpired();
-        currentEnemies->makeExpired();
         return 0;
 }
 
-bool WorldController::gameOver()
+/*
+ * we check if the player has run out of lives or if the enemies have reached the end of the screen.
+ */
+bool LevelController::gameOver()
 {
         return (currentPlayer->getLives() == 0 ||
                 currentEnemies->getlowestY() <=

@@ -6,12 +6,18 @@
 #include "Controller.h"
 #include <utility>
 
+/*
+ * We load in the window on which we render the everything we want to show.
+ * we set the font we want to use in our game.
+ * we add our HUD text, currently only the player lives.
+ */
 SFMLmanager::SFMLmanager(std::shared_ptr<sf::RenderWindow> window)
 {
         this->window = std::move(window);
         sf::Text health;
         this->font = std::make_shared<sf::Font>();
         if (!font->loadFromFile("Assests/letters.ttf")) {
+            throw std::runtime_error("no letters.ttf found in the asset files");
         }
         health.setFont(*font);
         health.setString("Health");
@@ -23,6 +29,11 @@ SFMLmanager::SFMLmanager(std::shared_ptr<sf::RenderWindow> window)
         gameOver = false;
 }
 
+/*
+ * We clear the last sprites off the screen.
+ * We tell every view in our class to update itself and draw itself on the screen.
+ * all the text on screen is also updated
+ */
 int SFMLmanager::draw()
 {
 
@@ -41,6 +52,11 @@ int SFMLmanager::draw()
         return 0;
 }
 
+/*
+ * The notify part of the observer class.
+ * expired = we look for the view that represents the model that has been marked for deletion and remove it.
+ * createview = we make a texture and sprite based on the model were given and make a view out of it.
+ */
 void SFMLmanager::onNotify(Controller& controller, Events::event event)
 {
         // TODO: next release, put events in a buffer so they are handled at updated

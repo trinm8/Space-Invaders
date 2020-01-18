@@ -10,6 +10,10 @@
 #include "Transformation.h"
 #include <utility>
 
+/*
+ * We make take the sprite and texture given by us by the the SFMLmanager. Set the texture and set the correct scale
+ * that has to be calculated to make sure that the textures still look fine if we were to resize the window.
+ */
 View::View(std::shared_ptr<sf::Texture> texture, std::shared_ptr<sf::Sprite> sprite, std::shared_ptr<Entity> model,
            float screensizeX, float screensizeY)
     : texture(std::move(texture)), sprite(std::move(sprite))

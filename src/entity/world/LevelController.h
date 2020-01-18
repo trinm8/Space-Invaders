@@ -9,12 +9,12 @@
 #include "ControllerEnemy.h"
 #include "ControllerPlayer.h"
 
-class WorldController : public Controller
+class LevelController : public Controller
 {
         /*!
          * This controller keeps track of the state of the current level, you could say its a controller that uses other
          * controllers as models. Its purpose is to keep track of what the state is of important entities in the game at
-         * the moment, BUT NOT CHANGE THEM IN ANY WAY that is the job of the game class.
+         * the moment, BUT DOES NOT UPDATE THEM that is the job of the game class.
          */
         std::shared_ptr<ControllerPlayer> currentPlayer;
         std::shared_ptr<ControllerEnemy> currentEnemies;
@@ -25,7 +25,7 @@ public:
         /*!
          * @param sfmLmanager The visual component for the background of the level, Not implemented yet
          */
-        explicit WorldController(const std::shared_ptr<Observer>& sfmLmanager);
+        explicit LevelController(const std::shared_ptr<Observer>& sfmLmanager);
 
         /*!
          * Make the level ready to be played by adding all the needed entities.

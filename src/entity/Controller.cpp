@@ -18,6 +18,10 @@ Controller::Controller(const std::shared_ptr<Observer>& SFMLmanager)
 
 const std::shared_ptr<Entity>& Controller::getModel() const { return model; }
 
+/*
+ * We check if we are outside of the current bounds of the game. This is predetermined at the moment because there
+ * isnt a way yet to change the game size
+ */
 bool Controller::isOffScreen(float X, float Y)
 {
 
@@ -25,6 +29,12 @@ bool Controller::isOffScreen(float X, float Y)
                (0 > X - (model->getHitbox().getW() / 2) || X + (model->getHitbox().getW() / 2) > MaxLogicX);
 }
 
+/*
+ * we first check if the countdown is 0 which marks if we are allowed to shoot.
+ * Next we make an enemy controller and give it a position above the current postion so it would hit the entity that
+ * shot it. We tell the graphics that a new view has to be made.
+ * We then start the cooldown timer to make sure we cant keep shooting in rapid succesion.
+ */
 int Controller::shoot(std::vector<std::shared_ptr<Controller>>& Controllers)
 {
         if (model->getFireCooldown() != 0)

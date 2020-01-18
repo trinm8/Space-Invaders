@@ -20,6 +20,9 @@ ControllerBullet::ControllerBullet(float posX, float posY, int direction)
         needsObserver = true;
 }
 
+/*
+ * The bullet keeps on moving straight up and when it goes offscreen we remove it from the game.
+ */
 int ControllerBullet::update(std::vector<std::shared_ptr<Controller>>& controller)
 {
         moveVertical();
@@ -29,6 +32,9 @@ int ControllerBullet::update(std::vector<std::shared_ptr<Controller>>& controlle
         return 0;
 }
 
+/*
+ * If the bullet hits something it is destroyed and removed from the game.
+ */
 int ControllerBullet::onCollision(Controller& other)
 {
         expired = true;
